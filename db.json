@@ -1,0 +1,22 @@
+[
+    {
+        "MaTheLoai": "KD",
+        "TenTL": "Kinh Dị"
+    },
+    {
+        "MaTheLoai": "NT",
+        "TenTL": "Ngôn Tình"
+    },
+    {
+        "MaTheLoai": "TC",
+        "TenTL": "Truyện Cười"
+    },
+    {
+        "MaTheLoai": "TN",
+        "TenTL": "Truyện Ngắn"
+    },
+    {
+        "MaTheLoai": "VH",
+        "TenTL": "Văn Học"
+    }
+]
