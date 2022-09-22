@@ -1,6 +1,7 @@
 const { model } = require("mongoose");
 const {Author, Book, User} = require("../model/model");
 const asyncHandeler = require('express-async-handler');
+const generateToken = require("../utils/generateToken");
 
 const userController = {
     
@@ -14,7 +15,14 @@ const userController = {
             }
             const saveUser = await User.create({username, password, email, permission});
             // res.status(200).json(saveUser);
-            res.send(saveUser);
+            res.json({
+                _id: saveUser.id,
+                username: saveUser.username,
+                password: saveUser.password,
+                email: saveUser.email,
+                token: generateToken(saveUser._id),
+
+            });
     }),
     //get all user
     getAllUsers: async(req, res) => {
@@ -69,6 +77,8 @@ const userController = {
                 username: user.username,
                 password: user.password,
                 email: user.email,
+                token: generateToken(user._id),
+
             });
             
         }else {

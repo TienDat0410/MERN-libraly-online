@@ -38,6 +38,7 @@ const authorController = {
             res.status(200).json("Update successfully!");
         } catch (err) {
             res.status(500).json(err);
+            throw new Error('Update failed');
         }
     },
     deleteAuthor: async(req, res) => {

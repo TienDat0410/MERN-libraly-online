@@ -7,7 +7,7 @@ const authorSchema = new mongoose.Schema({
         required: true
     },
     year: {
-        type: Date, 
+        type: Date,
         required: true
     },
     books: [
@@ -17,12 +17,14 @@ const authorSchema = new mongoose.Schema({
         },
     ],
 });
+//Popuplating this field of books to author 
+// authorSchema.virtual('books', {
+//     ref: 'Book',
+//     foreignField: 'author',
+//     localField: '_id',
+// });
 //book
 const bookSchema = new mongoose.Schema({
-    book_id: {
-        type: Number,
-        required: true
-    },
     book_name: {
         type: String,
         required: true
@@ -36,7 +38,7 @@ const bookSchema = new mongoose.Schema({
     //_Objectid
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"Author"
+        ref: "Author"
     },
     unitPrice: {
         type: Number
@@ -46,14 +48,12 @@ const bookSchema = new mongoose.Schema({
     },
     book_img: {
         type: String
-    }
-});
+    },
+},
+    { timestamps: true }
+);
 //User
 const usertSchema = new mongoose.Schema({
-    // user_id: {
-    //     type: Number,
-    //     required: true
-    // },
     username: {
         type: String
     },
@@ -72,7 +72,7 @@ const usertSchema = new mongoose.Schema({
 });
 
 
-usertSchema.pre('save', async function(next){
+usertSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
@@ -88,4 +88,4 @@ let Book = mongoose.model("Book", bookSchema);
 let Author = mongoose.model("Author", authorSchema);
 let User = mongoose.model("User", usertSchema);
 
-module.exports = {Book, Author, User};
+module.exports = { Book, Author, User };
