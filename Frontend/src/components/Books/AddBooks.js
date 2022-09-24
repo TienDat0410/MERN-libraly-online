@@ -4,11 +4,15 @@ import { createBookAction } from '../../redux/actions/books/bookActions';
 
 
 const AddBook = () => {
-    const [category, setCategory] = useState('');
     const [title, setTitle] = useState('');
+    const [publishedDate, setPublished] = useState('');
+    const [genres, setGenres] = useState('');
     const [author, setAuthor] = useState('');
+    const [unitPrice, setUnitPrice] = useState('');
+    const [quantity, setQuantity] = useState('');
+    const [book_img, setBook_img] = useState('');
 
-    //dispatcher
+    // //dispatcher
     const dispatch = useDispatch();
     //handle form submit
     const handleFromSubmit = e => {
@@ -16,9 +20,13 @@ const AddBook = () => {
 
         const data = {
             title, 
+            publishedDate,
+            genres,
             author, 
-            category
-        }
+            unitPrice,
+            quantity,
+            book_img
+        };
         dispatch(createBookAction(data));
     };
     return (
@@ -27,9 +35,11 @@ const AddBook = () => {
                 <div className='container'>
                     <button
                         type='button'
-                        className='btn btn-primary'
-                        data-toggle='modal'
-                        data-target='#exampleModal'>
+                        className='btn btn-secondary'
+                        data-bs-toggle='modal'
+                        data-bs-target='#exampleModal'
+                        data-bs-placement='top'
+                        data-bs-title='add Book'>
                         Click to add Book.
                     </button>
 
@@ -45,31 +55,55 @@ const AddBook = () => {
                                     <h5 className='modal-title' id='exampleModalLabel'>
                                         Create Book
                                     </h5>
-                                    <button
-                                        type='button'
-                                        className='close'
-                                        data-dismiss='modal'
-                                        aria-label='Close'>
-                                        <span aria-hidden='true'>&times;</span>
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
                                     </button>
+
+                                    {/* <button type="button" class="btn-close" aria-label="Close"></button> */}
                                 </div>
                                 <div className='modal-body'>
                                     <h1 className='text-center'>Add Book</h1>
+                                    {/* <form onSubmit={handleFromSubmit}> */}
                                     <form onSubmit={handleFromSubmit}>
-                                        <fieldset>
+                                        <fieldset>                                          
                                             <div className='form-group'>
-                                                <select
-                                                    value={category}
-                                                    onChange={e => setCategory(e.target.value)}
-                                                    className='custom-select'>
-                                                    <option defaultValue='programming'>
-                                                        programming
-                                                    </option>
-                                                    <option value='religion'>Religion</option>
-                                                    <option value='life'>life</option>
-                                                    <option value='culture'>culture</option>
-                                                </select>
+                                                <label htmlFor='exampleInputPassword1'>title</label>
+                                                <input
+                                                    value={title}
+                                                    onChange={e => setTitle(e.target.value)}
+                                                    type='text'
+                                                    className='form-control'
+                                                    id='exampleInputPassword1'
+                                                    placeholder='Book title'
+                                                />
+                                            </div>                                   
+
+                                            <div className='form-group'>
+                                                <label htmlFor='exampleInputPublishedDate'>PublishedDate </label>
+                                                <input
+                                                    value={publishedDate}
+                                                    onChange={e => setPublished(e.target.value)}
+                                                    type='Date'
+                                                    className='form-control'
+                                                    id='exampleInputPublishedDate'
+                                                    aria-describedby='emailHelp'
+                                                    placeholder='PublishedDate'
+                                                />
                                             </div>
+
+                                            <div className='form-group'>
+                                                <label htmlFor='exampleInputGenres'>Genres </label>
+                                                <input
+                                                    value={genres}
+                                                    onChange={e => setGenres(e.target.value)}
+                                                    type='text'
+                                                    className='form-control'
+                                                    id='exampleInputGenres'
+                                                    aria-describedby='emailHelp'
+                                                    placeholder='Genres'
+                                                />
+                                            </div>
+
                                             <div className='form-group'>
                                                 <label htmlFor='exampleInputEmail1'>Author </label>
                                                 <input
@@ -82,15 +116,41 @@ const AddBook = () => {
                                                     placeholder='Author name'
                                                 />
                                             </div>
+
                                             <div className='form-group'>
-                                                <label htmlFor='exampleInputPassword1'>title</label>
+                                                <label htmlFor='exampleInputUnitPrice'>UnitPrice </label>
                                                 <input
-                                                    value={title}
-                                                    onChange={e => setTitle(e.target.value)}
+                                                    value={unitPrice}
+                                                    onChange={e => setUnitPrice(e.target.value)}
                                                     type='text'
                                                     className='form-control'
-                                                    id='exampleInputPassword1'
-                                                    placeholder='Book title'
+                                                    id='exampleInputUnitPrice'
+                                                    aria-describedby='emailHelp'
+                                                    placeholder='UnitPrice'
+                                                />
+                                            </div>
+
+                                            <div className='form-group'>
+                                                <label htmlFor='exampleInputQuantity'>Quantity </label>
+                                                <input
+                                                    value={quantity}
+                                                    onChange={e => setQuantity(e.target.value)}
+                                                    type='text'
+                                                    className='form-control'
+                                                    id='exampleInputQuantity'
+                                                    aria-describedby='emailHelp'
+                                                    placeholder='Quantity'
+                                                />
+                                            </div>
+
+                                            <div className='form-group'>
+                                                <label htmlFor='formFileMultiple' className="form-label mt-4"> Choose Book picture </label>
+                                                <input
+                                                    value={book_img}
+                                                    onChange={e => setBook_img(e.target.value)}
+                                                    type='file'
+                                                    className='form-control'
+                                                    id='formFileMultiple'
                                                 />
                                             </div>
                                             <button type='submit' className='btn btn-warning m-auto'>
@@ -100,12 +160,7 @@ const AddBook = () => {
                                     </form>
                                 </div>
                                 <div className='modal-footer'>
-                                    <button
-                                        type='button'
-                                        className='btn btn-danger'
-                                        data-dismiss='modal'>
-                                        Close
-                                    </button>
+                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
