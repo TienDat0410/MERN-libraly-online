@@ -5,7 +5,7 @@ const app = express();
 var bodyParser = require("body-parser");
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const port = 8000;
+const port = 5000;
 const authorRoute = require("./routes/author");
 const bookRouter = require("./routes/book");
 const userRouter = require("./routes/user");
@@ -30,19 +30,6 @@ app.use(morgan("common"));
 
 //Error middleware
 app.use(error.errorMiddlewareHandler);
-
-//Register
-// app.post('/api/user/register',async (req, res) =>{
-//     try {
-//         // console.log(req.body);
-//         const {username, password, email, permission} = req.body;
-        
-
-
-//     } catch (error) {
-//         res.status(500).json(error);
-//     }
-// });
 
 //ROUTES
 app.use("/author", authorRoute);

@@ -2,6 +2,8 @@ const { model } = require("mongoose");
 const {Author, Book, User} = require("../model/model");
 const asyncHandeler = require('express-async-handler');
 const generateToken = require("../utils/generateToken");
+const authMiddlware = require('../middlewares/authMiddleware');
+const authTokenGenerator = require('../utils/generateToken');
 
 const userController = {
     

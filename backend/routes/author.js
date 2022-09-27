@@ -1,14 +1,17 @@
 const express = require('express');
 const authorController = require('../controllers/authorController');
+const authMiddlware = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 //ADD Author
-router.post("/", authorController.addAuthor);
+router.post("/auth", authMiddlware, authorController.addAuthor);
 //GET ALL Author
-router.get("/", authorController.getAllAuthors);
+router.get("/", authMiddlware, authorController.getAllAuthors);
 //GET AN AUTHOR
-router.get("/:id", authorController.getAnAuthor)
+router.get("/auth/:id", authMiddlware, authorController.getAnAuthor)
 //update author
-router.put("/:id", authorController.updateAuthor);
+router.put("/auth/:id",  authMiddlware,authorController.updateAuthor);
+//delete
+router.delete("/auth/:id", authMiddlware, authorController.deleteAuthor);
 
 module.exports = router;

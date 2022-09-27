@@ -1,6 +1,6 @@
 const { CREATE_BOOK_REQUEST, CREATE_BOOK_SUCCESS, CREATE_BOOK_FAIL } = require("../../actions/actionsTypes");
 
-const createBookReducer = (state = {total: 20}, action) => {
+const createBookReducer = (state = {}, action) => {
     switch (action.type) {
         case CREATE_BOOK_REQUEST:
             return {

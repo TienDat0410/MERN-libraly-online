@@ -4,7 +4,7 @@ import { createBookAction } from '../../redux/actions/books/bookActions';
 
 
 const AddBook = () => {
-    const [title, setTitle] = useState('');
+    const [book_name, setTitle] = useState('');
     const [publishedDate, setPublished] = useState('');
     const [genres, setGenres] = useState('');
     const [author, setAuthor] = useState('');
@@ -19,13 +19,13 @@ const AddBook = () => {
         e.prevenDefault();
 
         const data = {
-            title, 
+            book_name, 
             publishedDate,
             genres,
             author, 
             unitPrice,
             quantity,
-            book_img
+            book_img,
         };
         dispatch(createBookAction(data));
     };
@@ -69,7 +69,7 @@ const AddBook = () => {
                                             <div className='form-group'>
                                                 <label htmlFor='exampleInputPassword1'>title</label>
                                                 <input
-                                                    value={title}
+                                                    value={book_name}
                                                     onChange={e => setTitle(e.target.value)}
                                                     type='text'
                                                     className='form-control'
@@ -145,10 +145,18 @@ const AddBook = () => {
 
                                             <div className='form-group'>
                                                 <label htmlFor='formFileMultiple' className="form-label mt-4"> Choose Book picture </label>
-                                                <input
+                                                {/* <input
                                                     value={book_img}
                                                     onChange={e => setBook_img(e.target.value)}
                                                     type='file'
+                                                    className='form-control'
+                                                    id='fo
+                                                    rmFileMultiple'
+                                                /> */}
+                                                 <input
+                                                    value={book_img}
+                                                    onChange={e => setBook_img(e.target.files)}
+                                                    type='text'
                                                     className='form-control'
                                                     id='formFileMultiple'
                                                 />

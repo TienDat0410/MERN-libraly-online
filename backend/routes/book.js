@@ -1,17 +1,18 @@
 const express = require('express');
 const { model } = require('mongoose');
 const bookController = require('../controllers/bookController');
+const authMiddlware = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 //ADD a book
-router.post("/", bookController.addABook);
+router.post("/auth", bookController.addABook);
 //get all book
 router.get("/", bookController.getAllBooks);
 //get a book
-router.get("/:id", bookController.getABook);
+router.get("/auth/:id", authMiddlware, bookController.getABook);
 //update a book
-router.put("/:id", bookController.updateBook);
+router.put("/auth/:id", authMiddlware, bookController.updateBook);
 //delete book
-router.delete("/:id", bookController.deleteBook);
+router.delete("/auth/:id", authMiddlware, bookController.deleteBook);
 
 module.exports = router;

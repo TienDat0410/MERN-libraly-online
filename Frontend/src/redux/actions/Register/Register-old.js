@@ -1,7 +1,7 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import API, { endpoints } from "../../API";
+// import API, { endpoints } from "../../API";
 import axios from 'axios';
 
 class Register extends React.Component {
@@ -31,7 +31,7 @@ class Register extends React.Component {
                 if (k !== 'confirmpassword')
                     formData.append(k, this.state.user[k])
 
-            API.post(endpoints['users'], JSON.stringify(formData), {
+            axios.post('/user/register', JSON.stringify(formData), {
                 header: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
