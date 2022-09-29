@@ -9,6 +9,8 @@ router.post("/register", userController.addUser);
 router.post("/login", userController.loginUser);
 //get all user
 router.get("/auth", authMiddlware, userController.getAllUsers);
+//get profileuser
+router.get("/profile", authMiddlware, userController.profile);
 //GET AN user
 router.get("/auth/:id", authMiddlware, userController.getAUser)
 //update user

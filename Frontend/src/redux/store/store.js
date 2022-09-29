@@ -11,7 +11,7 @@ const middlewares = [thunk];
 const reducer = combineReducers({
     bookcreated: createBookReducer,
     booksList: booksListReducer,
-    userLogin: userAuthReducer,
+    userLogin: userAuthReducer, //login and register
 });
 
 //Get user from local

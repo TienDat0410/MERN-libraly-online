@@ -1,33 +1,31 @@
-const { model } = require("mongoose");
-const {Author, Book, User} = require("../model/model");
 const asyncHandeler = require('express-async-handler');
 const generateToken = require("../utils/generateToken");
-const authMiddlware = require('../middlewares/authMiddleware');
-const authTokenGenerator = require('../utils/generateToken');
+const User = require('../model/User');
+
 
 const userController = {
-    
+
     //create user(register)
     addUser: asyncHandeler(async (req, res) => {
-            // const newUser = new User(req.body);
-            const {username, password, email, permission} = req.body;
-            const userExits = await User.findOne({email: email});
-            if(userExits) {
-                throw new Error('User Exits');
-            }
-            const saveUser = await User.create({username, password, email, permission});
-            // res.status(200).json(saveUser);
-            res.json({
-                _id: saveUser.id,
-                username: saveUser.username,
-                password: saveUser.password,
-                email: saveUser.email,
-                token: generateToken(saveUser._id),
+        // const newUser = new User(req.body);
+        const { username, password, email, permission } = req.body;
+        const userExits = await User.findOne({ email: email });
+        if (userExits) {
+            throw new Error('User Exits');
+        }
+        const saveUser = await User.create({ username, password, email, permission });
+        // res.status(200).json(saveUser);
+        res.json({
+            _id: saveUser.id,
+            username: saveUser.username,
+            password: saveUser.password,
+            email: saveUser.email,
+            token: generateToken(saveUser._id),
 
-            });
+        });
     }),
     //get all user
-    getAllUsers: async(req, res) => {
+    getAllUsers: async (req, res) => {
         try {
             const allUsers = await User.find();
             res.status(200).json(allUsers);
@@ -36,7 +34,7 @@ const userController = {
         }
     },
     //get a user
-    getAUser: async(req, res) => {
+    getAUser: async (req, res) => {
         try {
             const user = await User.findById(req.params.id);
             res.status(200).json(user);
@@ -46,17 +44,17 @@ const userController = {
         }
     },
     //update user
-    updateUser: async(req, res) => {
+    updateUser: async (req, res) => {
         try {
             const user = await User.findById(req.params.id);
-            await user.updateOne({$set: req.body});
+            await user.updateOne({ $set: req.body });
             res.status(200).json("Update successfully!");
         } catch (err) {
             res.status(500).json(err);
         }
     },
-    deleteUser: async(req, res) => {
-        try {           
+    deleteUser: async (req, res) => {
+        try {
             await User.findByIdAndDelete(req.params.id);
             res.status(200).json("Delete successfully");
         } catch (err) {
@@ -64,13 +62,13 @@ const userController = {
         }
     },
     //login
-    loginUser: asyncHandeler(async(req, res) => {
-        const {email, password} = req.body;
+    loginUser: asyncHandeler(async (req, res) => {
+        const { email, password } = req.body;
 
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
 
 
-        if(user && (await user.isPasswordMatch(password))) {
+        if (user && (await user.isPasswordMatch(password))) {
             //set status code
             res.status(200);
             res.status(201);
@@ -82,12 +80,24 @@ const userController = {
                 token: generateToken(user._id),
 
             });
-            
-        }else {
+
+        } else {
             res.status(401);
             throw new Error('Invalid login credentials');
         }
     }),
+    //Profile
+    profile: async (req, res) => {
+        try {
+            const users = await User.findById(req.params._id).populate('books');
+            // if (!user) throw new Error("You don't have any profile yet");  
+            // res.status(200).json(users);
+            this.ctx.response.set('content-type', response.headers['content-type'])
+            console.log(res.json(users));
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
 }
 
 module.exports = userController;

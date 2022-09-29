@@ -1,20 +1,24 @@
 import React from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { logoutUserAction } from '../../redux/actions/users/userAction';
 
-const Header = () => {
+
+const Header = props => {
     const dispatch = useDispatch();
     const url = "/";
-    //   const history = useHistory();
-    //   const userLogin = useSelector(state => state.userLogin);
-    //   const { userInfo } = userLogin;
+    const history = useNavigate();
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInfo } = userLogin;
 
     //logout handler
 
-    //   const logoutHandler = () => {
-    //     dispatch(logoutUser());
-    //     history.push('/');
-    //   };
+    const logoutHandler = () => {
+        dispatch(logoutUserAction());
+        history({url}); //useNagate is not reload page ????
+        //reload page use javascript
+        window.location.reload(false);
+    };
     return (
         <header>
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -24,41 +28,53 @@ const Header = () => {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <Link className='nav-link' to='/'>
-                                    Home
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className='nav-link' to='/addbook'>
-                                    Add book
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className='nav-link' to='/register'>
-                                    Register
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className='nav-link' to='/login'>
-                                    Login
-                                </Link>
-                            </li>
-
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Books
+                        <ul className='navbar-nav m-auto'>
+                            <li className='nav-item active'>
+                                <a className='nav-link active' href={url}>
+                                    Home <span class="visually-hidden">(current)</span>
                                 </a>
-                                <ul className="dropdown-menu">
-                                    <li><Link className='dropdown-item' to='/getallbook'>
-                                        getAllBook
-                                    </Link></li>
-                                    <li><a className="dropdown-item" href="#">Another action</a></li>
-                                    <li><hr className="dropdown-divider" /></li>
-                                    <li><a className="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
                             </li>
+                            {!userInfo ? (
+                                <>
+                                    <li className='nav-item'>
+                                        <Link className='nav-link' to='/login'>
+                                            Login
+                                        </Link>
+                                    </li>
+                                    <li className='nav-item'>
+                                        <Link className='nav-link' to='/register'>
+                                            Register
+                                        </Link>
+                                    </li>
+                                </>
+                            ) : (
+                                <>
+                                    <li className='nav-item'>
+                                        <Link className='nav-link' to='/getallbook'>
+                                            Books
+                                        </Link>
+                                    </li>
+                                    <li className='nav-item'>
+                                        <Link className='nav-link' to='/addbook'>
+                                            Add book
+                                        </Link>
+                                    </li>
+
+                                    <li className='nav-item'>
+                                        <Link className='nav-link' to='/users'>
+                                            Users
+                                        </Link>
+                                    </li>
+                                    <li className='nav-item'>
+                                        <Link
+                                            onClick={logoutHandler}
+                                            className='nav-link'
+                                            to='/login'>
+                                            Logout
+                                        </Link>
+                                    </li>
+                                </>
+                            )}
                         </ul>
                         <form className="d-flex" role="search">
                             <input className="form-control me-sm-2" type="text" placeholder="Search" aria-label="Search" />

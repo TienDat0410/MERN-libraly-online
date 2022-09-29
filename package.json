@@ -32,6 +32,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.1",
     "morgan": "^1.10.0",
+    "react-alert": "^7.0.3",
     "with-router": "^1.0.1"
   },
   "devDependencies": {

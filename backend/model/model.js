@@ -17,12 +17,7 @@ const authorSchema = new mongoose.Schema({
         },
     ],
 });
-//Popuplating this field of books to author 
-// authorSchema.virtual('books', {
-//     ref: 'Book',
-//     foreignField: 'author',
-//     localField: '_id',
-// });
+
 //book
 const bookSchema = new mongoose.Schema({
     book_name: {
@@ -49,43 +44,23 @@ const bookSchema = new mongoose.Schema({
     book_img: {
         type: String
     },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
 },
     { timestamps: true }
 );
-//User
-const usertSchema = new mongoose.Schema({
-    username: {
-        type: String
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    permission: {
-        type: String
-    }
-});
 
 
-usertSchema.pre('save', async function (next) {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-});
 
-//verify password
-usertSchema.methods.isPasswordMatch = async function (enteredPasword) {
 
-    return await bcrypt.compare(enteredPasword, this.password);
-}
 
 let Book = mongoose.model("Book", bookSchema);
 let Author = mongoose.model("Author", authorSchema);
-let User = mongoose.model("User", usertSchema);
 
-module.exports = { Book, Author, User };
+
+
+
+module.exports = { Book, Author };

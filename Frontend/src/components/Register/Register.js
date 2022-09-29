@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Register.css';
-import registerUserAction from '../../redux/actions/users/userAction';
+import { registerUserAction } from '../../redux/actions/users/userAction';
 import Loading from '../Loading/loading';
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const RegisterUser = () => {
-    
+
     const [username, setname] = useState('');
     const [password, setpassword] = useState('');
     const [email, setemail] = useState('');
@@ -21,7 +21,7 @@ const RegisterUser = () => {
     // useEffect(() => {
     //     if (userInfo) {
     //         history.push('/');
-           
+
     //     }
     // }, [userInfo]);
 

@@ -7,7 +7,7 @@ const router = express.Router();
 //ADD a book
 router.post("/auth", bookController.addABook);
 //get all book
-router.get("/", bookController.getAllBooks);
+router.get("/",bookController.getAllBooks);
 //get a book
 router.get("/auth/:id", authMiddlware, bookController.getABook);
 //update a book
