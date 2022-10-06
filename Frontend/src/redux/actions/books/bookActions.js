@@ -12,12 +12,11 @@ const createBookAction = bookData => {
                 'Content-Type': 'application/json',
                 
             };
-
-            const { data } = await axios.post('/book/auth', bookData, {
-                // headers: {
+            // headers: {
                 //     "Content-Type": "multipart/form-data"
                 // }
-            });
+
+            const { data } = await axios.post('/book/auth', bookData, config);
 
             dispatch({
                 type: CREATE_BOOK_SUCCESS,

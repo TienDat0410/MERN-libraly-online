@@ -61,10 +61,17 @@ const Header = props => {
                                     </li>
 
                                     <li className='nav-item'>
-                                        <Link className='nav-link' to='/users'>
+                                        <Link className='nav-link' to='/profile'>
                                             Users
                                         </Link>
                                     </li>
+
+                                    <li className='nav-item'>
+                                        <Link className='nav-link' to='/profile'>
+                                            Profile
+                                        </Link>
+                                    </li>
+
                                     <li className='nav-item'>
                                         <Link
                                             onClick={logoutHandler}

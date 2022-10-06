@@ -11,30 +11,25 @@ const RegisterUser = () => {
     const [username, setname] = useState('');
     const [password, setpassword] = useState('');
     const [email, setemail] = useState('');
-    const [permission, setpermission] = useState('');
+    // const [permission, setpermission] = useState('');
+    const permission = 'user';
 
     const history = useNavigate();
 
     const userLogin = useSelector(state => state.userLogin);
     const { userInfo, loading, error } = userLogin;
-    //redirect when login
-    // useEffect(() => {
-    //     if (userInfo) {
-    //         history.push('/');
 
-    //     }
-    // }, [userInfo]);
-
-    //dispatch
     const dispatch = useDispatch();
-
 
     //submit
     const formSubmitHandler = e => {
         e.preventDefault();
         dispatch(registerUserAction(username, password, email, permission));
         console.log(userInfo, loading, error);
-        if (userInfo !== null && error === undefined) history('/');
+        if (userInfo) {
+            history('/');
+            window.location.reload(false);
+        }
     };
 
     return (
@@ -88,14 +83,13 @@ const RegisterUser = () => {
                                     <option>user</option>
 
                                 </select> */}
-                                <input
-                                    value={permission}
-                                    onChange={e => setpermission(e.target.value)}
+                                {/* <input
+                                    value='user'
                                     type='text'
                                     className='form-control'
                                     id='exampleInputPermission'
                                     placeholder='Permission'
-                                />
+                                /> */}
                             </div>
                             <button type='submit' className='btn btn-primary'>
                                 Register

@@ -7,6 +7,7 @@ import Books from './components/Books/FetchBook';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home';
 import Profile from './components/Profile/Profile';
+import UpdateProfile from './components/Profile/UpdateProfile';
 //
 import LoginUser from './components/Login/Login';
 import RegisterUser from './components/Register/Register';
@@ -18,6 +19,7 @@ const App = () => {
       <Routes>
         <Route exact path='/' element={<Home/>} />
         <Route exact path='/profile' element={<Profile/>} />
+        <Route exact path='/user-update' element={<UpdateProfile/>} />
         <Route exact path='/addbook' element={<AddBook/>} />
         <Route exact path='/getallbook' element={<Books/>} />
         <Route exact path='/register' element={<RegisterUser/>} />

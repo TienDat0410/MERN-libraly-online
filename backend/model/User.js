@@ -20,10 +20,6 @@ const usertSchema = new mongoose.Schema({
     },
 });
 
-
-
-usertSchema.set('toJSON', {virtuals: true});
-
 //
 usertSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt(10);
@@ -44,6 +40,8 @@ usertSchema.virtual('books', {
     foreignField: 'createdBy',
     localField: '_id',
 });
+
+usertSchema.set('toJSON', {virtuals: true});
 
 const User = mongoose.model("User", usertSchema);
 

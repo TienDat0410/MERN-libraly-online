@@ -26,6 +26,7 @@ const AddBook = () => {
             unitPrice,
             quantity,
             book_img,
+           
         };
         dispatch(createBookAction(data));
     };

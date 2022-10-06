@@ -9,16 +9,40 @@ const bookController = {
     //add a book
     addABook: async(req, res) => {
         try {
-            const newBook = new Book(req.body);
-            const saveBook = await newBook.save();
+            //Grab the user from the req.user
+            const userId = req.user._id;
+
+            const book = await Book.create({
+                book_name: req.body.book_name,
+                publishedDate: req.body.publishedDate,
+                genres: req.body.genres,
+                author: req.body.author,
+                unitPrice: req.body.unitPrice,
+                book_img: req.body.book_img,
+                createdBy: userId,
+            })
+
+            // const newBook = new Book({
+            //     book_name: req.body,
+            //     publishedDate: req.body,
+            //     genres: req.body,
+            //     author: req.body.author,
+            //     unitPrice: req.body,
+            //     book_img: req.body,
+            //     createdBy: userId,
+            // });
+            // const newBook = new Book(req.body);
+            // const saveBook = await newBook.save();
+
             if(req.body.author) {
                 // const author = Author.find({_id: req.body.author});
                 const author = Author.findById(req.body.author);
-                await author.updateOne({$push: {books: saveBook._id}});
+                await author.updateOne({$push: {books: book._id}});
             }
-            res.status(200).json(saveBook);
+            res.status(200).json(book);
         } catch (err) {
             res.status(500).json(err);
+            console.log(err);
         }
     },
     //get all book

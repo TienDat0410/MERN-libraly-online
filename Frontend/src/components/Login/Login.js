@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserAction } from '../../redux/actions/users/userAction';
 import { useNavigate } from "react-router-dom";
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessage from '../Message/ErrorMessage';
 
 
 const LoginUser = () => {
@@ -26,7 +26,7 @@ const LoginUser = () => {
     const formSubmitHandler = e => {
         e.preventDefault();
         console.log(email, password);
-        dispatch(loginUserAction(email, password,));
+        dispatch(loginUserAction(email, password));
         // console.log(userInfo.token)
         // console.log(userInfo, loading, error);
         // if (userInfo !== null && error === undefined) history('/');
