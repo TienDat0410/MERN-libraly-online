@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 //User
 const usertSchema = new mongoose.Schema({
     username: {
-        type: String
+        type: String,
+        required: true,
     },
     password: {
         type: String,
@@ -18,6 +19,10 @@ const usertSchema = new mongoose.Schema({
     permission: {
         type: String
     },
+    profilePic: {
+        type: String,
+        default: "",
+    },
 });
 
 //
@@ -25,6 +30,17 @@ usertSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
+});
+
+usertSchema.pre('findOneAndUpdate', async function (next) {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+        next();
+    } catch (error) {
+        return next(err);
+    }
+
 });
 
 //verify password
@@ -41,7 +57,7 @@ usertSchema.virtual('books', {
     localField: '_id',
 });
 
-usertSchema.set('toJSON', {virtuals: true});
+usertSchema.set('toJSON', { virtuals: true });
 
 const User = mongoose.model("User", usertSchema);
 

@@ -4,7 +4,8 @@ import './Register.css';
 import { registerUserAction } from '../../redux/actions/users/userAction';
 import Loading from '../Loading/loading';
 import { useNavigate } from "react-router-dom";
-
+import { updateUserFile } from '../../redux/actions/users/userAction';
+import axios from "axios";
 
 const RegisterUser = () => {
 
@@ -13,6 +14,7 @@ const RegisterUser = () => {
     const [email, setemail] = useState('');
     // const [permission, setpermission] = useState('');
     const permission = 'user';
+    const [file, setFile] = useState(null);
 
     const history = useNavigate();
 
@@ -22,9 +24,32 @@ const RegisterUser = () => {
     const dispatch = useDispatch();
 
     //submit
-    const formSubmitHandler = e => {
+    const formSubmitHandler = async(e) => {
         e.preventDefault();
-        dispatch(registerUserAction(username, password, email, permission));
+
+        const newUser = {
+            username,
+            password,
+            email,
+          };
+
+        if (file) {
+            const data = new FormData();
+            const filename = Date.now() + file.name;
+            data.append("name", filename);
+            data.append("file", file);
+            newUser.userPic = filename;
+            console.log(e.target.files);
+            try {
+                // dispatch(updateUserFile(data));
+                await axios.post("/api/upload", data);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        // dispatch(registerUserAction(username, password, email, permission));
+        dispatch(registerUserAction(newUser));
         console.log(userInfo, loading, error);
         if (userInfo) {
             history('/');
@@ -38,6 +63,9 @@ const RegisterUser = () => {
                 <div className='container'>
                     {loading && <Loading />}
                     <h1 className='text-center'>Register</h1>
+                    {file && (
+                        <img className="writeImg" src={URL.createObjectURL(file)} alt="" />
+                    )}
 
                     <form onSubmit={formSubmitHandler}>
                         <fieldset>
@@ -90,6 +118,17 @@ const RegisterUser = () => {
                                     id='exampleInputPermission'
                                     placeholder='Permission'
                                 /> */}
+                            </div>
+                            <div className='form-group'>
+                                <label htmlFor='formFile' className="form-label mt-4">Choose your image</label>
+                                <input
+                                    value={file}
+                                    onChange={e => setFile(e.target.files[0])}                                   
+                                    type='file'
+                                    className='form-control'
+                                    id='formFile'
+                                    placeholder='choose file'
+                                />
                             </div>
                             <button type='submit' className='btn btn-primary'>
                                 Register

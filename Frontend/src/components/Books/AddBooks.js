@@ -1,6 +1,7 @@
-import React, { Component, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { createBookAction } from '../../redux/actions/books/bookActions';
+import { useNavigate } from "react-router-dom";
 
 
 const AddBook = () => {
@@ -12,23 +13,39 @@ const AddBook = () => {
     const [quantity, setQuantity] = useState('');
     const [book_img, setBook_img] = useState('');
 
+    //Get the user id from store
+
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInfo } = userLogin;
+    console.log(userInfo._id);
+
     // //dispatcher
     const dispatch = useDispatch();
     //handle form submit
     const handleFromSubmit = e => {
-        e.prevenDefault();
-
         const data = {
-            book_name, 
+            book_name,
             publishedDate,
             genres,
-            author, 
+            author,
             unitPrice,
             quantity,
             book_img,
-           
+            createdBy: userInfo && userInfo._id,
+
         };
-        dispatch(createBookAction(data));
+        
+        dispatch(createBookAction(data)); 
+        //
+        const bookcreated = useSelector((state) => state.bookcreated);
+        const { book } = bookcreated;
+        e.prevenDefault();
+        if (book) {
+            alert('Created book successfully');
+            useNavigate('/getallbook');
+        } else {
+            alert('Created book failed');
+        }        
     };
     return (
         <div className='row container-height'>
@@ -64,9 +81,8 @@ const AddBook = () => {
                                 </div>
                                 <div className='modal-body'>
                                     <h1 className='text-center'>Add Book</h1>
-                                    {/* <form onSubmit={handleFromSubmit}> */}
-                                    <form onSubmit={handleFromSubmit}>
-                                        <fieldset>                                          
+                                    <form onSubmit={handleFromSubmit} >
+                                        <fieldset>
                                             <div className='form-group'>
                                                 <label htmlFor='exampleInputPassword1'>title</label>
                                                 <input
@@ -77,7 +93,7 @@ const AddBook = () => {
                                                     id='exampleInputPassword1'
                                                     placeholder='Book title'
                                                 />
-                                            </div>                                   
+                                            </div>
 
                                             <div className='form-group'>
                                                 <label htmlFor='exampleInputPublishedDate'>PublishedDate </label>
@@ -152,11 +168,11 @@ const AddBook = () => {
                                                     type='file'
                                                     className='form-control'
                                                     id='fo
-                                                    rmFileMultiple'
+                                                    rmFileMultiple'd
                                                 /> */}
-                                                 <input
+                                                <input
                                                     value={book_img}
-                                                    onChange={e => setBook_img(e.target.files)}
+                                                    onChange={e => setBook_img(e.target.value)}
                                                     type='text'
                                                     className='form-control'
                                                     id='formFileMultiple'

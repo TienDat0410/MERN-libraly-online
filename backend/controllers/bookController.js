@@ -12,7 +12,17 @@ const bookController = {
             //Grab the user from the req.user
             const userId = req.user._id;
 
-            const book = await Book.create({
+            // const book = await Book.create({
+            //     book_name: req.body.book_name,
+            //     publishedDate: req.body.publishedDate,
+            //     genres: req.body.genres,
+            //     author: req.body.author,
+            //     unitPrice: req.body.unitPrice,
+            //     book_img: req.body.book_img,
+            //     createdBy: userId,
+            // });
+
+            const newBook = new Book({
                 book_name: req.body.book_name,
                 publishedDate: req.body.publishedDate,
                 genres: req.body.genres,
@@ -20,26 +30,16 @@ const bookController = {
                 unitPrice: req.body.unitPrice,
                 book_img: req.body.book_img,
                 createdBy: userId,
-            })
-
-            // const newBook = new Book({
-            //     book_name: req.body,
-            //     publishedDate: req.body,
-            //     genres: req.body,
-            //     author: req.body.author,
-            //     unitPrice: req.body,
-            //     book_img: req.body,
-            //     createdBy: userId,
-            // });
+            });
             // const newBook = new Book(req.body);
-            // const saveBook = await newBook.save();
+            const saveBook = await newBook.save();
 
             if(req.body.author) {
                 // const author = Author.find({_id: req.body.author});
                 const author = Author.findById(req.body.author);
-                await author.updateOne({$push: {books: book._id}});
+                await author.updateOne({$push: {books: saveBook._id}});
             }
-            res.status(200).json(book);
+            res.status(200).json(saveBook);
         } catch (err) {
             res.status(500).json(err);
             console.log(err);
@@ -57,7 +57,8 @@ const bookController = {
     //get a book
     getABook: async(req, res) => {
         try {
-            const book = await Book.findById(req.params.id).populate("author");
+            // const book = await Book.findById(req.params.id).populate("author");
+            const book = await Book.findById(req.params.id);
             res.status(200).json(book);
 
         } catch (err) {
@@ -67,9 +68,11 @@ const bookController = {
     //update book
     updateBook: async(req, res) => {
         try {
-            const book = await Book.findById(req.params.id);
-            await book.updateOne({$set: req.body});
-            res.status(200).json("Update successfully!");
+            // const book = await Book.findById(req.params.id);
+            const book = await Book.findByIdAndUpdate(req.params.id, req.body);
+
+            // await book.updateOne({$set: req.body});
+            res.status(200).json(book);
         } catch (err) {
             res.status(500).json(err);
         }

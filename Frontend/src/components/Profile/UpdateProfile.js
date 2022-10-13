@@ -10,7 +10,7 @@ const UpdateProfile = () => {
     const dispatch = useDispatch();
     // console.log(userInfo && userInfo.username);
     const [username, setusername] = useState(userInfo && userInfo.username);
-    const [password, setpassword] = useState(userInfo && userInfo.password);
+    const [password, setpassword] = useState('');
     const [email, setemail] = useState(userInfo && userInfo.email);
     //
     const updatedUser = useSelector((state) => state.updatedUser);
@@ -22,6 +22,12 @@ const UpdateProfile = () => {
         e.preventDefault();
 
         dispatch(updateUser(username, password, email));
+        if(updateUser){
+            alert('Update Successfully');
+        } else {
+            alert('Update failed');
+        }
+        
         // console.log('Submitted');
     };
 
@@ -43,7 +49,7 @@ const UpdateProfile = () => {
                                     type='text'
                                     className='form-control'
                                     id='exampleInputPassword1'
-                                    placeholder='Book title'
+                                    placeholder='username'
                                 />
                             </div>
 

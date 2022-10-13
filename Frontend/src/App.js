@@ -11,6 +11,7 @@ import UpdateProfile from './components/Profile/UpdateProfile';
 //
 import LoginUser from './components/Login/Login';
 import RegisterUser from './components/Register/Register';
+import BookDetail from './components/Books/BookDetail';
 
 const App = () => {
   return (
@@ -22,6 +23,8 @@ const App = () => {
         <Route exact path='/user-update' element={<UpdateProfile/>} />
         <Route exact path='/addbook' element={<AddBook/>} />
         <Route exact path='/getallbook' element={<Books/>} />
+        <Route exact path='/bookdetail/:id' element={<BookDetail/>} />
+
         <Route exact path='/register' element={<RegisterUser/>} />
         <Route path="/login" element={<LoginUser />} />
       </Routes>
