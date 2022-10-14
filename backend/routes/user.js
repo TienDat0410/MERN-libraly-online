@@ -1,11 +1,14 @@
 const express = require('express');
+const upload = require('../controllers/upload');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const authMiddlware = require('../middlewares/authMiddleware');
 const checkemail = require('../utils/checkEmail');
 
 //register user
+// router.post("/register",(upload.single('profilePic')), userController.addUser);
 router.post("/register", userController.addUser);
+
 //loginuser
 router.post("/login", userController.loginUser);
 //get all user

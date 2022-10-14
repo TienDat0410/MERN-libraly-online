@@ -3,6 +3,9 @@ const generateToken = require("../utils/generateToken");
 const User = require('../model/User');
 const checkemail = require('../utils/checkEmail');
 const bcrypt = require('bcrypt');
+// const cloudinary = require('../utils/cloudinary');
+const cloudinary = require('cloudinary').v2;
+//
 
 
 const userController = {
@@ -10,22 +13,63 @@ const userController = {
     //create user(register)
     addUser: asyncHandeler(async (req, res) => {
         // const newUser = new User(req.body);
+        // const { username, password, email, permission } = req.body;
         const { username, password, email, permission } = req.body;
-        const userExits = await User.findOne({ email: email });
-        if (userExits) {
-            throw new Error('User Exits');
-        }
-        const saveUser = await User.create({ username, password, email, permission, userPic });
-        // res.status(200).json(saveUser);
-        res.json({
-            _id: saveUser.id,
-            username: saveUser.username,
-            password: saveUser.password,
-            email: saveUser.email,
-            userPic: saveUser.userPic,
-            token: generateToken(saveUser._id),
+        // const file = req.files.avatar;
+        // const {avatar} = req.body;
+        // const file = avatar[0];
 
+        //connect cloudinary
+        const result = await cloudinary.uploader.upload(req.body.avatar, {
+            folder: 'avatars',
+            width: 300,
+            crop: "scale"
         });
+
+        // await cloudinary.uploader.upload(file.tempFilePath,(err, result) => {
+        //     console.log(result);
+        // });
+
+
+        // const profilePic = req.file.filename;
+        try {
+            const userExits = await User.findOne({ email: email });
+            if (userExits) {
+                throw new Error('User Exits');
+            }
+            const saveUser = await User.create({
+                username,
+                password,
+                email,
+                permission,
+                avatar: {
+                    public_id: result.public_id,
+                    url: result.secure_url
+                }
+            });
+            res.status(201).json({
+                success: true,
+                _id: saveUser.id,
+                username: saveUser.username,
+                password: saveUser.password,
+                email: saveUser.email,
+                avatar: saveUser.avatar,
+                token: generateToken(saveUser._id),
+            });
+        } catch (error) {
+            res.status(500).send(error);
+
+        }
+
+        // res.status(201).json({
+        //     _id: saveUser.id,
+        //     username: saveUser.username,
+        //     password: saveUser.password,
+        //     email: saveUser.email,
+        //     avatar: saveUser.avatar,
+        //     token: generateToken(saveUser._id),
+
+        // });
         // checkemail(saveUser.email);
         // if(saveUser){
         //     checkemail(saveUser);
@@ -61,12 +105,13 @@ const userController = {
             if (user) {
                 user.username = req.body.username || user.username;
                 user.email = req.body.email || user.email;
-                if (req.body.password) {
-                    user.password = req.body.password || user.password;
-                }
+                // if (req.body.password) {
+                //     const salt = await bcrypt.genSalt(10);
+                //     user.password = await bcrypt.hash(req.body.password, salt);
+                // }
             }
-            // const updateUser = await user.save();
-            await user.updateOne({ $set: req.body });
+            const updateUser = await user.save();
+            // await user.updateOne({ $set: req.body });
             // var newvalues = {
             //     $set: 
             //     {
@@ -93,10 +138,10 @@ const userController = {
             //     email: updateUser.email,
             //     token: generateToken(updateUser._id),
             // })
-            res.send(user);
-            res.status(200).json("Update successfully!");
+            res.send(updateUser);
+            // res.status(200).json("Update successfully!");
         } catch (err) {
-            return res.status(40).json({
+            return res.status(400).json({
                 status: 'error',
                 err: "User Not found",
             });

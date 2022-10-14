@@ -1,55 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Register.css';
 import { registerUserAction } from '../../redux/actions/users/userAction';
 import Loading from '../Loading/loading';
-import { useNavigate } from "react-router-dom";
-import { updateUserFile } from '../../redux/actions/users/userAction';
-import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+
 
 const RegisterUser = () => {
 
+    // const [user, setUser] = useState({
+    //     username: "",
+    //     email: "",
+    //     password: "",
+    // });
     const [username, setname] = useState('');
     const [password, setpassword] = useState('');
     const [email, setemail] = useState('');
-    // const [permission, setpermission] = useState('');
-    const permission = 'user';
-    const [file, setFile] = useState(null);
 
+    // const { username, email, password } = user;
+
+    const [avatar, setAvatar] = useState("");
+    const [avatarPreview, setAvatarPreview] = useState(
+        "https://res.cloudinary.com/dml8obswa/image/upload/v1665707345/avatars/lvqt3d9m7riaxxq1t50b.png"
+    );
+
+    //
     const history = useNavigate();
+    // const alert = useAlert();
+    const dispatch = useDispatch();
 
     const userLogin = useSelector(state => state.userLogin);
     const { userInfo, loading, error } = userLogin;
 
-    const dispatch = useDispatch();
-
-    //submit
-    const formSubmitHandler = async(e) => {
-        e.preventDefault();
-
-        const newUser = {
-            username,
-            password,
-            email,
-          };
-
-        if (file) {
-            const data = new FormData();
-            const filename = Date.now() + file.name;
-            data.append("name", filename);
-            data.append("file", file);
-            newUser.userPic = filename;
-            console.log(e.target.files);
-            try {
-                // dispatch(updateUserFile(data));
-                await axios.post("/api/upload", data);
-            } catch (err) {
-                console.log(err);
-            }
+    useEffect(() => {
+        if (userInfo) {
+            history("/");
         }
 
+        if (error) {
+            alert(error);
+        }
+    }, [dispatch, alert, userInfo, error]);
+
+
+    //submit
+    const submitHandler = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.set("username", username);
+        formData.set("email", email);
+        formData.set("password", password);
+        formData.set("avatar", avatar);
+        // formData.append('avatar', avatar);
+
         // dispatch(registerUserAction(username, password, email, permission));
-        dispatch(registerUserAction(newUser));
+        dispatch(registerUserAction(formData));
         console.log(userInfo, loading, error);
         if (userInfo) {
             history('/');
@@ -57,88 +63,121 @@ const RegisterUser = () => {
         }
     };
 
+    const onchange = (e) => {
+        if (e.target.name === "avatar") {
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    setAvatarPreview(reader.result);
+                    setAvatar(reader.result);
+                }
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+        // } else {
+        //     setUser({ ...user, [e.target.name]: e.target.value });
+        // }
+    };
+
     return (
-        <div className='row container-height'>
-            <div className='col-lg-6 col-md-6 m-auto'>
-                <div className='container'>
-                    {loading && <Loading />}
-                    <h1 className='text-center'>Register</h1>
-                    {file && (
-                        <img className="writeImg" src={URL.createObjectURL(file)} alt="" />
-                    )}
+        <Fragment>
 
-                    <form onSubmit={formSubmitHandler}>
-                        <fieldset>
-                            <div className='form-group'>
-                                <label htmlFor='exampleInputEmail1'>Name</label>
-                                <input
-                                    value={username}
-                                    onChange={e => setname(e.target.value)}
-                                    type='text'
-                                    className='form-control'
-                                    id='exampleInputEmail1'
-                                    aria-describedby='emailHelp'
-                                    placeholder='Enter Name'
-                                />
-                            </div>
-                            <div className='form-group'>
-                                <label htmlFor='exampleInputEmail1'>Email address</label>
-                                <input
-                                    value={email}
-                                    onChange={e => setemail(e.target.value)}
-                                    type='email'
-                                    className='form-control'
-                                    id='exampleInputEmail1'
-                                    aria-describedby='emailHelp'
-                                    placeholder='Enter email'
-                                />
-                            </div>
-                            <div className='form-group'>
-                                <label htmlFor='exampleInputPassword1'>Password</label>
-                                <input
-                                    value={password}
-                                    onChange={e => setpassword(e.target.value)}
-                                    type='password'
-                                    className='form-control'
-                                    id='exampleInputPassword1'
-                                    placeholder='Password'
-                                />
-                            </div>
-                            <div className='form-group'>
-                                <label htmlFor='exampleInputPermission'>Permission</label>
-                                {/* <select className="form-select" id="exampleInputPermission" value={permission} onChange={e => setpermission(e.target.value)}>
-                                    <option>admin</option>
-                                    <option>user</option>
+            <div className='row container-height'>
+                <div className='col-lg-6 col-md-6 m-auto'>
+                    <div className='container'>
+                        {loading && <Loading />}
+                        <h1 className='text-center'>Register</h1>
 
-                                </select> */}
-                                {/* <input
-                                    value='user'
-                                    type='text'
-                                    className='form-control'
-                                    id='exampleInputPermission'
-                                    placeholder='Permission'
-                                /> */}
-                            </div>
-                            <div className='form-group'>
-                                <label htmlFor='formFile' className="form-label mt-4">Choose your image</label>
-                                <input
-                                    value={file}
-                                    onChange={e => setFile(e.target.files[0])}                                   
-                                    type='file'
-                                    className='form-control'
-                                    id='formFile'
-                                    placeholder='choose file'
-                                />
-                            </div>
-                            <button type='submit' className='btn btn-primary'>
-                                Register
-                            </button>
-                        </fieldset>
-                    </form>
+                        <form onSubmit={submitHandler} encType="multipart/form-data">
+                            <fieldset>
+                                <div className='form-group'>
+                                    <label htmlFor='exampleInputEmail1'>Name</label>
+                                    <input
+                                        value={username}
+                                        onChange={e => setname(e.target.value)}
+                                        type='text'
+                                        className='form-control'
+                                        id='exampleInputEmail1'
+                                        aria-describedby='emailHelp'
+                                        placeholder='Enter Name'
+                                    />
+                                </div>
+                                <div className='form-group'>
+                                    <label htmlFor='exampleInputEmail1'>Email address</label>
+                                    <input
+                                        value={email}
+                                        onChange={e => setemail(e.target.value)}
+                                        type='email'
+                                        className='form-control'
+                                        id='exampleInputEmail1'
+                                        aria-describedby='emailHelp'
+                                        placeholder='Enter email'
+                                    />
+                                </div>
+                                <div className='form-group'>
+                                    <label htmlFor='exampleInputPassword1'>Password</label>
+                                    <input
+                                        value={password}
+                                        onChange={e => setpassword(e.target.value)}
+                                        type='password'
+                                        className='form-control'
+                                        id='exampleInputPassword1'
+                                        placeholder='Password'
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="avatar_upload">Avatar</label>
+                                    <div className="d-flex align-items-center">
+                                        <div>
+                                            <figure className="avatar mr-3 item-rtl">
+                                                <img
+                                                    src={avatarPreview}
+                                                    className="rounded-pill"
+                                                    alt="Avatar Preview"
+                                                    style={{
+                                                        width: "100px",
+                                                        height: "100px",
+                                                        borderRadius: "50%",
+                                                    }}
+                                                />
+                                            </figure>
+                                        </div>
+                                        <div className="custom-file">
+                                            <input
+                                                type="file"
+                                                name="avatar"
+                                                className="custom-file-input"
+                                                id="customFile"
+                                                onChange={onchange}
+                                            />
+                                            <label className="custom-file-label" htmlFor="customFile">
+                                                Choose Avatar
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* <div className='form-group'>
+                                    <label htmlFor='formFile' className="form-label mt-4">Choose your image</label>
+                                    <input
+                                        value={avatar}
+                                        onChange={onchange}
+                                        type='file'
+                                        className='form-control'
+                                        id='formFile'
+                                        placeholder='choose file'
+                                    />
+                                </div> */}
+                                <button type='submit' className='btn btn-primary'>
+                                    Register
+                                </button>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        </Fragment>
     );
 };
 

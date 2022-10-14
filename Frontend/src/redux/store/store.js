@@ -7,7 +7,7 @@ import userAuthReducer from '../reducers/users/userAuthReducer';
 import { userProfileReducer } from '../reducers/users/userProfileReducer';
 import userUpdateReducer from '../reducers/users/updateUserProfile';
 import bookDetailReducer from '../reducers/books/bookDetailsReducer';
-import uploadFileReducer from '../reducers/uploadfiles/uploadFileReducer';
+
 
 // const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -22,7 +22,7 @@ const reducer = combineReducers({
     userProfile: userProfileReducer, //profile
     updatedUser: userUpdateReducer, //update
     //upload file
-    uploadFiles: uploadFileReducer,
+    // uploadFiles: uploadFileReducer,
 
 });
 
