@@ -58,7 +58,7 @@ const Profile = () => {
           <tbody>
             {users && users.books.map(book => (
               <tr className='table-secondary'>
-                <th scope='row'><img style={{height: "350px"} } src={book.book_img}></img></th>
+                <th scope='row' key={book.book_img.public_id}><img style={{height: "350px"} } src={book.book_img.url}></img></th>
                 <td>{book.book_name}</td>
                 <td>{book.unitPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</td>
                 <td>Delete</td>

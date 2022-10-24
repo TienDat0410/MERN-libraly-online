@@ -15,10 +15,8 @@ const userController = {
         // const newUser = new User(req.body);
         // const { username, password, email, permission } = req.body;
         const { username, password, email, permission } = req.body;
-        // const file = req.files.avatar;
-        // const {avatar} = req.body;
-        // const file = avatar[0];
-
+       
+       
         //connect cloudinary
         const result = await cloudinary.uploader.upload(req.body.avatar, {
             folder: 'avatars',
@@ -26,10 +24,11 @@ const userController = {
             crop: "scale"
         });
 
+        //test postman
+         // const file = req.files.avatar;
         // await cloudinary.uploader.upload(file.tempFilePath,(err, result) => {
         //     console.log(result);
         // });
-
 
         // const profilePic = req.file.filename;
         try {
@@ -60,23 +59,6 @@ const userController = {
             res.status(500).send(error);
 
         }
-
-        // res.status(201).json({
-        //     _id: saveUser.id,
-        //     username: saveUser.username,
-        //     password: saveUser.password,
-        //     email: saveUser.email,
-        //     avatar: saveUser.avatar,
-        //     token: generateToken(saveUser._id),
-
-        // });
-        // checkemail(saveUser.email);
-        // if(saveUser){
-        //     checkemail(saveUser);
-        //     res.status(200).send('mail has been sent to you, please check your email');
-        // } else {
-        //     res.status(500).send('Error, please check email');
-        // }
     }),
     //get all user
     getAllUsers: async (req, res) => {

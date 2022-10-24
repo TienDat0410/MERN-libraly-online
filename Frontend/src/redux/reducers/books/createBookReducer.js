@@ -8,7 +8,8 @@ const createBookReducer = (state = {}, action) => {
             };
         case CREATE_BOOK_SUCCESS:
             return {
-                book: action.payload,
+                books: action.payload,
+                success: action.payload.success,
             };
         case CREATE_BOOK_FAIL:
             return {

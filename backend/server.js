@@ -11,6 +11,7 @@ const http = require('http');
 const authorRoute = require("./routes/author");
 const bookRouter = require("./routes/book");
 const userRouter = require("./routes/user");
+const callcardRouter = require('./routes/callcard');
 //middlewares
 const error = require('./middlewares/errorMiddlewareHandler');
 //upload file
@@ -100,6 +101,7 @@ cloudinary.config({
 app.use("/author", authorRoute);
 app.use("/book", bookRouter);
 app.use("/user", userRouter);
+app.use("/callcard", callcardRouter);
 
 
 app.listen(port, () => {

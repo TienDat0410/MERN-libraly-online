@@ -28,7 +28,7 @@ const bookSchema = new mongoose.Schema({
         type: Date
     },
     genres: {
-        type: [String]
+        type: String,
     },
     //_Objectid
     author: {
@@ -42,7 +42,13 @@ const bookSchema = new mongoose.Schema({
         type: Number
     },
     book_img: {
-        type: String
+        public_id: {
+            type: String,
+          },
+          url: {
+            type: String,
+            // required: true,
+          },
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,

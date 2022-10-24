@@ -153,38 +153,5 @@ const updateUser = (username, email, password) => {
     };
 };
 
-//update user
-// const updateUserFile = (filedata) => {
-//     return async (dispatch) => {
-//         try {
-//             dispatch({
-//                 type: UPLOAD_FILE_REQUEST,
-//                 loading: true,
-//             });
-
-//             const config = {
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     // authorization: `tiendat ${userInfo.token}`,
-//                 },
-//             };
-//             const { data } = await axios.post('/api/upload', filedata, config);
-//             dispatch({
-//                 type: UPLOAD_FILE_SUCCESS,
-//                 payload: data,
-//             });
-//         } catch (error) {
-//             dispatch({
-//                 type: UPLOAD_FILE_FAIL,
-//                 payload:
-//                     error.response && error.response.data.message
-//                         ? error.response.data.message
-//                         : error.message,
-//             });
-//         }
-//     };
-// };
-
-
 
 export { registerUserAction, loginUserAction, logoutUserAction, getUserProfileAction, updateUser };

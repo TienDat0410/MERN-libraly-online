@@ -58,6 +58,7 @@ const RegisterUser = () => {
         dispatch(registerUserAction(formData));
         console.log(userInfo, loading, error);
         if (userInfo) {
+            alert('Register success');
             history('/');
             window.location.reload(false);
         }
@@ -157,18 +158,6 @@ const RegisterUser = () => {
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* <div className='form-group'>
-                                    <label htmlFor='formFile' className="form-label mt-4">Choose your image</label>
-                                    <input
-                                        value={avatar}
-                                        onChange={onchange}
-                                        type='file'
-                                        className='form-control'
-                                        id='formFile'
-                                        placeholder='choose file'
-                                    />
-                                </div> */}
                                 <button type='submit' className='btn btn-primary'>
                                     Register
                                 </button>

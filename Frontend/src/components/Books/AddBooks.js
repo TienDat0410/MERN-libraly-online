@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createBookAction } from '../../redux/actions/books/bookActions';
 import { useNavigate } from "react-router-dom";
@@ -9,9 +9,10 @@ const AddBook = () => {
     const [publishedDate, setPublished] = useState('');
     const [genres, setGenres] = useState('');
     const [author, setAuthor] = useState('');
-    const [unitPrice, setUnitPrice] = useState('');
+    const [unitPrice, setUnitPrice] = useState(0);
     const [quantity, setQuantity] = useState('');
-    const [book_img, setBook_img] = useState('');
+    const [book_img, setBookImages] = useState([]);
+    const [book_imgPreview, setImagesPreview] = useState([]);
 
     //Get the user id from store
 
@@ -21,32 +22,64 @@ const AddBook = () => {
 
     // //dispatcher
     const dispatch = useDispatch();
+    const history = useNavigate();
+    //
+    const bookcreated = useSelector((state) => state.bookcreated);
+    const { books, error, success } = bookcreated;
+    useEffect(() => {
+        if (error) {
+            alert.error(error);
+            dispatch()
+        }
+        if (success) {
+            alert("Book created successfully");
+            history('/getallbook');
+        }
+    }, [dispatch, error, success]);
     //handle form submit
     const handleFromSubmit = e => {
-        const data = {
-            book_name,
-            publishedDate,
-            genres,
-            author,
-            unitPrice,
-            quantity,
-            book_img,
-            createdBy: userInfo && userInfo._id,
+        e.preventDefault();
 
-        };
-        
-        dispatch(createBookAction(data)); 
-        //
-        const bookcreated = useSelector((state) => state.bookcreated);
-        const { book } = bookcreated;
-        e.prevenDefault();
-        if (book) {
-            alert('Created book successfully');
-            useNavigate('/getallbook');
-        } else {
-            alert('Created book failed');
-        }        
+        const formData = new FormData();
+        formData.set("book_name", book_name);
+        formData.set("publishedDate", publishedDate);
+        formData.set("genres", genres);
+        formData.set("author", author);
+        formData.set("unitPrice", unitPrice);
+        formData.set("quantity", quantity);
+
+        book_img.forEach((image) => {
+            formData.append("book_img", image);
+        });
+
+        dispatch(createBookAction(formData));
+
+        // if (books) {
+        //     alert('Created book successfully');
+        //     history('/getallbook');
+        // } else {
+        //     alert('Created book failed');
+        // }
     };
+
+    const onChange = (e) => {
+		const files = Array.from(e.target.files);
+
+		setImagesPreview([]);
+		setBookImages([]);
+
+		files.forEach((file) => {
+			const reader = new FileReader();
+
+			reader.onload = () => {
+				if (reader.readyState === 2) {
+					setImagesPreview((oldArray) => [...oldArray, reader.result]);
+					setBookImages((oldArray) => [...oldArray, reader.result]);
+				}
+			};
+			reader.readAsDataURL(file);
+		});
+	};
     return (
         <div className='row container-height'>
             <div className='col-lg-6 col-md-6 m-auto'>
@@ -81,7 +114,7 @@ const AddBook = () => {
                                 </div>
                                 <div className='modal-body'>
                                     <h1 className='text-center'>Add Book</h1>
-                                    <form onSubmit={handleFromSubmit} >
+                                    <form onSubmit={handleFromSubmit} encType="multipart/form-data">
                                         <fieldset>
                                             <div className='form-group'>
                                                 <label htmlFor='exampleInputPassword1'>title</label>
@@ -161,22 +194,35 @@ const AddBook = () => {
                                             </div>
 
                                             <div className='form-group'>
-                                                <label htmlFor='formFileMultiple' className="form-label mt-4"> Choose Book picture </label>
-                                                {/* <input
-                                                    value={book_img}
-                                                    onChange={e => setBook_img(e.target.value)}
-                                                    type='file'
-                                                    className='form-control'
-                                                    id='fo
-                                                    rmFileMultiple'd
-                                                /> */}
-                                                <input
-                                                    value={book_img}
-                                                    onChange={e => setBook_img(e.target.value)}
-                                                    type='text'
-                                                    className='form-control'
-                                                    id='formFileMultiple'
-                                                />
+                                                <label htmlFor='formFileMultiple' className="form-label mt-4"> Book picture </label>
+                                                <div className="custom-file">
+                                                    <input
+                                                        type="file"
+                                                        name="product_images"
+                                                        className="custom-file-input"
+                                                        id="customFile"
+                                                        onChange={onChange}
+                                                        multiple
+                                                    />
+                                                    <label
+                                                        className="custom-file-label"
+                                                        htmlFor="customFile"
+                                                    >
+                                                        Choose Images
+                                                    </label>
+                                                </div>
+
+                                                {book_imgPreview.map((img) => (
+												<img
+													src={img}
+													key={img}
+													alt="Images Preview"
+													className="mt-3 mr-2"
+													width="55"
+													height="52"
+												/>
+											))}
+                                                
                                             </div>
                                             <button type='submit' className='btn btn-warning m-auto'>
                                                 Create Book

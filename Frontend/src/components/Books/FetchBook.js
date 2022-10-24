@@ -55,8 +55,9 @@ const Books = () => {
                                                 <td>{book.genres}</td>
                                                 {/* <td>{book.author}</td> */}
                                                 <td>{book.unitPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
-                                                <td>
-                                                    <img src={book.book_img} style={{ height: '350px' }} />
+                                                <td key={book.book_img.public_id}>
+                                                
+                                                    <img src={book.book_img.url} style={{ height: '350px' }} />
                                                 </td>
                                                 <td>
                                                     <button
