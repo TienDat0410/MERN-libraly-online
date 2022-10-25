@@ -39,16 +39,16 @@ usertSchema.pre('save', async function (next) {
     next();
 });
 
-usertSchema.pre('findOneAndUpdate', async function (next) {
-    try {
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-        next();
-    } catch (error) {
-        return next(err);
-    }
+// usertSchema.pre('findOneAndUpdate', async function (next) {
+//     try {
+//         const salt = await bcrypt.genSalt(10);
+//         this.password = await bcrypt.hash(this.password, salt);
+//         next();
+//     } catch (error) {
+//         return next(err);
+//     }
 
-});
+// });
 
 //verify password
 usertSchema.methods.isPasswordMatch = async function (enteredPasword) {

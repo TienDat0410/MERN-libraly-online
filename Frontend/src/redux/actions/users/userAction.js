@@ -115,7 +115,7 @@ const getUserProfileAction = () => {
     }
 }
 //update user
-const updateUser = (username, email, password) => {
+const updateUser = (userData) => {
     return async (dispatch, getState) => {
         try {
             dispatch({
@@ -128,15 +128,11 @@ const updateUser = (username, email, password) => {
             //Create a config and pass to axios for authentication
             const config = {
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                     authorization: `tiendat ${userInfo.token}`,
                 },
             };
-            const { data } = await axios.put(
-                '/user/auth/update',
-                { username, email, password },
-                config
-            );
+            const { data } = await axios.put('/user/auth/update',userData, config);
             dispatch({
                 type: USER_UPDATE_SUCCESS,
                 payload: data,

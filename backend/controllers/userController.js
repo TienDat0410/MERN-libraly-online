@@ -15,8 +15,8 @@ const userController = {
         // const newUser = new User(req.body);
         // const { username, password, email, permission } = req.body;
         const { username, password, email, permission } = req.body;
-       
-       
+
+
         //connect cloudinary
         const result = await cloudinary.uploader.upload(req.body.avatar, {
             folder: 'avatars',
@@ -25,7 +25,7 @@ const userController = {
         });
 
         //test postman
-         // const file = req.files.avatar;
+        // const file = req.files.avatar;
         // await cloudinary.uploader.upload(file.tempFilePath,(err, result) => {
         //     console.log(result);
         // });
@@ -83,54 +83,55 @@ const userController = {
     updateUser: async (req, res) => {
         try {
             // const user = await User.findById(req.params.id);
-            const user = await User.findById(req.user._id);
-            if (user) {
-                user.username = req.body.username || user.username;
-                user.email = req.body.email || user.email;
-                // if (req.body.password) {
-                //     const salt = await bcrypt.genSalt(10);
-                //     user.password = await bcrypt.hash(req.body.password, salt);
-                // }
+            //
+            const newUserData = {
+                username: req.body.username,
+                email: req.body.email
             }
-            const updateUser = await user.save();
-            // await user.updateOne({ $set: req.body });
-            // var newvalues = {
-            //     $set: 
-            //     {
-            //         _id: user._id,
-            //         username: req.body.username,
-            //         password: req.body.password,
-            //         email: req.body.email,
-            //         token: generateToken(),
-            //     } };
-            // const updateUser = await user.findOneAndUpdate(
-            //     { _id: user._id },
-            //     { username: req.body.username },
-            //     { password: req.body.password },
-            //     { email: req.body.email },
-            //     { token: generateToken(user._id) }
-            // );
+            // user.username = req.body.username || user.username;
+            // user.email = req.body.email || user.email;
+            // if (req.body.password) {
+            //     const salt = await bcrypt.genSalt(10);
+            //     user.password = await bcrypt.hash(req.body.password, salt);
+            // }
+
+            // Update avatar
+            if (req.body.avatar !== '') {
+                const user = await User.findById(req.user._id);
+
+                const image_id = user.avatar.public_id;
+                const res = await cloudinary.uploader.destroy(image_id);
+
+                const result = await cloudinary.uploader.upload(req.body.avatar, {
+                    folder: 'avatars',
+                    width: 300,
+                    crop: "scale"
+                })
+
+                newUserData.avatar = {
+                    public_id: result.public_id,
+                    url: result.secure_url
+                }
+            }
 
             // const updateUser = await user.save();
-
-            // res.json({
-            //     _id: updateUser._id,
-            //     username: updateUser.name,
-            //     password: updateUser.password,
-            //     email: updateUser.email,
-            //     token: generateToken(updateUser._id),
-            // })
-            res.send(updateUser);
+            const updateUser = await User.findByIdAndUpdate(req.user._id, newUserData, {
+                new: true,
+                runValidators: true,
+                useFindAndModify: false
+            })
+            res.status(200).json({
+                success: true,
+                updateUser
+            });
+            // res.send(updateUser);
             // res.status(200).json("Update successfully!");
         } catch (err) {
+            console.log(err);
             return res.status(400).json({
                 status: 'error',
                 err: "User Not found",
             });
-
-            // res.status(500).json(err);
-
-            // throw new Error('User Not found');
         }
     },
     deleteUser: async (req, res) => {

@@ -31,11 +31,22 @@ const reducer = combineReducers({
 const userAuthFromStorage = localStorage.getItem('userAuthData')
     ? JSON.parse(localStorage.getItem('userAuthData'))
     : null;
+// const loanInfo = localStorage.getItem("loanInfo")
+//     ? JSON.parse(localStorage.getItem("loanInfo"))
+//     : {};
 
 const initialSate = {
     userLogin: {
         userInfo: userAuthFromStorage
     },
+    callCart: {
+        callCartItems: localStorage.getItem("callCartItems")
+			? JSON.parse(localStorage.getItem("callCartItems"))
+			: [],
+		loanInfo: localStorage.getItem("loanInfo")
+			? JSON.parse(localStorage.getItem("loanInfo"))
+			: {},
+    }
 }
 console.log(userAuthFromStorage);
 

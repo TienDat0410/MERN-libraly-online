@@ -9,13 +9,12 @@ const userUpdateReducer = (state = {}, action) => {
       };
     case USER_UPDATE_SUCCESS:
       return {
-        user: action.payload,
         loading: false,
-        success: true,
+        isUpdated: action.payload,
       };
     case USER_UPDATE_FAIL:
       return {
-        error: action.payload,
+        isDeleted: action.payload,
         loading: false,
       };
     default:

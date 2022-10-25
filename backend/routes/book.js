@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/auth", authMiddlware, bookController.addABook);
 //get all book
 router.get("/", bookController.getAllBooks);
-//get a book
+//get a book(add to call card)
 router.get("/auth/:id", bookController.getABook);
 //update a book
 router.put("/auth/:id", authMiddlware, bookController.updateBook);
