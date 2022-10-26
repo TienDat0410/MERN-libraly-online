@@ -1,5 +1,5 @@
 import axios from 'axios';
-const { CREATE_BOOK_REQUEST, CREATE_BOOK_SUCCESS, CREATE_BOOK_FAIL, FETCH_BOOK_REQUEST, FETCH_BOOK_SUCCESS, FETCH_BOOK_FAIL, DELETE_BOOK_REQUEST, DELETE_BOOK_SUCCESS, DELETE_BOOK_FAIL, BOOK_UPDATE_REQUEST, BOOK_UPDATE_SUCCESS, BOOK_UPDATE_FAIL, BOOK_DETAIL_REQUEST, BOOK_DETAIL_SUCCESS, BOOK_DETAIL_FAIL } = require("../actionsTypes");
+const { CREATE_BOOK_REQUEST, CREATE_BOOK_SUCCESS, CREATE_BOOK_FAIL, FETCH_BOOK_REQUEST, FETCH_BOOK_SUCCESS, FETCH_BOOK_FAIL, DELETE_BOOK_REQUEST, DELETE_BOOK_SUCCESS, DELETE_BOOK_FAIL, BOOK_UPDATE_REQUEST, BOOK_UPDATE_SUCCESS, BOOK_UPDATE_FAIL, BOOK_DETAIL_REQUEST, BOOK_DETAIL_SUCCESS, BOOK_DETAIL_FAIL, CLEAR_ERRORS } = require("../actionsTypes");
 
 const createBookAction = bookData => {
   return async (dispatch, getState) => {
@@ -103,7 +103,7 @@ const deleteBook = id => {
 };
 
 //Fetch a signle book
-const fetchBook = (id, bookData) => {
+const fetchBook = (id) => {
   return async (dispatch, getState) => {
     // grab the user Token from store
     // const { userInfo } = getState().userLogin;
@@ -118,16 +118,16 @@ const fetchBook = (id, bookData) => {
           'Content-Type': 'application/json',
         },
       };
-      const { data } = await axios.get(`/book/auth/${id}`, bookData, config);
+      const { data } = await axios.get(`/book/auth/${id}`, config);
 
       dispatch({
         type: BOOK_DETAIL_SUCCESS,
-        payload: data,
+        payload: data.book,
       });
     } catch (error) {
       dispatch({
         type: BOOK_DETAIL_FAIL,
-        error: error.response && error.response.data.message,
+        payload: error.response.data.message,
       });
     }
   };
@@ -166,6 +166,11 @@ const updateBook = (id, bookData) => {
   };
 }
 
+const clearErrors = () => async (dispatch) => {
+	dispatch({
+		type: CLEAR_ERRORS,
+	});
+};
 
 
-export { createBookAction, fetchBooks, deleteBook, updateBook, fetchBook };
+export { createBookAction, fetchBooks, deleteBook, updateBook, fetchBook, clearErrors };

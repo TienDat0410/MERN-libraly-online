@@ -38,17 +38,19 @@ const bookSchema = new mongoose.Schema({
     unitPrice: {
         type: Number
     },
-    quantity: {
-        type: Number
+    stock: {
+        type: Number,
+        maxLength: [100, "book name cannot exceed 5 characters"],
+        default: 0,
     },
     book_img: {
         public_id: {
             type: String,
-          },
-          url: {
+        },
+        url: {
             type: String,
             // required: true,
-          },
+        },
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,

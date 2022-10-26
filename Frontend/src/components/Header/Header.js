@@ -15,7 +15,7 @@ const Header = props => {
 
     const logoutHandler = () => {
         dispatch(logoutUserAction());
-        history({url}); //useNagate is not reload page ????
+        history({ url }); //useNagate is not reload page ????
         //reload page use javascript
         window.location.reload(false);
     };
@@ -28,8 +28,8 @@ const Header = props => {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className='navbar-nav m-auto'>
-                            <li className='nav-item active'>
+                        <ul className='nav nav-pills'>
+                            <li className='nav-item"'>
                                 <a className='nav-link active' href={url}>
                                     Home <span class="visually-hidden">(current)</span>
                                 </a>
@@ -49,6 +49,18 @@ const Header = props => {
                                 </>
                             ) : (
                                 <>
+                                    {/* <li className="nav-item dropdown">
+                                        <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                                        <div class="dropdown-menu" style="">
+                                            <Link className='nav-link' to='/getallbook'>
+                                                Books
+                                            </Link>
+                                            <Link className='nav-link' to='/addbook'>
+                                                Add book
+                                            </Link>
+
+                                        </div>
+                                    </li> */}
                                     <li className='nav-item'>
                                         <Link className='nav-link' to='/getallbook'>
                                             Books
@@ -69,6 +81,12 @@ const Header = props => {
                                     <li className='nav-item'>
                                         <Link className='nav-link' to='/profile'>
                                             Profile
+                                        </Link>
+                                    </li>
+
+                                    <li className='nav-item'>
+                                        <Link className='nav-link' to='/author'>
+                                            Authors
                                         </Link>
                                     </li>
 

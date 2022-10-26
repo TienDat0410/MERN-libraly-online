@@ -73,13 +73,15 @@ const bookController = {
             res.status(500).json(err);
         }
     },
-    //get a book
+    //get a book detail
     getABook: async (req, res) => {
         try {
             // const book = await Book.findById(req.params.id).populate("author");
             const book = await Book.findById(req.params.id).populate("author");
-            res.status(200).json(book);
-
+            res.status(200).json({
+                success: true,
+                book,
+            });
         } catch (err) {
             res.status(500).json(err);
         }

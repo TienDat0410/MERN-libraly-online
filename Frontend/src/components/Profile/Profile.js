@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfileAction } from '../../redux/actions/users/userAction';
 import './Profile.css';
-import pic from '../../assets/img/bookpic.jpg';
+
 import ErrorMessage from '../Message/ErrorMessage';
 
 

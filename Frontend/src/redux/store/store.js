@@ -7,6 +7,7 @@ import userAuthReducer from '../reducers/users/userAuthReducer';
 import { userProfileReducer } from '../reducers/users/userProfileReducer';
 import userUpdateReducer from '../reducers/users/updateUserProfile';
 import bookDetailReducer from '../reducers/books/bookDetailsReducer';
+import authorListReducer from '../reducers/author/authorListReducer';
 
 
 // const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -21,6 +22,8 @@ const reducer = combineReducers({
     userLogin: userAuthReducer, //login and register
     userProfile: userProfileReducer, //profile
     updatedUser: userUpdateReducer, //update
+    //author
+    authorsList: authorListReducer,
     //upload file
     // uploadFiles: uploadFileReducer,
 
@@ -31,23 +34,23 @@ const reducer = combineReducers({
 const userAuthFromStorage = localStorage.getItem('userAuthData')
     ? JSON.parse(localStorage.getItem('userAuthData'))
     : null;
-// const loanInfo = localStorage.getItem("loanInfo")
-//     ? JSON.parse(localStorage.getItem("loanInfo"))
-//     : {};
+const loanInfo = localStorage.getItem("loanInfo")
+    ? JSON.parse(localStorage.getItem("loanInfo"))
+    : {};
+const callCardItems = localStorage.getItem("callCardItems")
+? JSON.parse(localStorage.getItem("callCardItems"))
+: [];
 
 const initialSate = {
     userLogin: {
         userInfo: userAuthFromStorage
     },
     callCart: {
-        callCartItems: localStorage.getItem("callCartItems")
-			? JSON.parse(localStorage.getItem("callCartItems"))
-			: [],
-		loanInfo: localStorage.getItem("loanInfo")
-			? JSON.parse(localStorage.getItem("loanInfo"))
-			: {},
+        callCardItems: callCardItems,
+		loanInfo: loanInfo,
     }
 }
+
 console.log(userAuthFromStorage);
 
 const store = createStore(

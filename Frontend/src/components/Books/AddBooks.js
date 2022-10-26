@@ -10,7 +10,7 @@ const AddBook = () => {
     const [genres, setGenres] = useState('');
     const [author, setAuthor] = useState('');
     const [unitPrice, setUnitPrice] = useState(0);
-    const [quantity, setQuantity] = useState('');
+    const [stock, setStock] = useState('');
     const [book_img, setBookImages] = useState([]);
     const [book_imgPreview, setImagesPreview] = useState([]);
 
@@ -46,7 +46,7 @@ const AddBook = () => {
         formData.set("genres", genres);
         formData.set("author", author);
         formData.set("unitPrice", unitPrice);
-        formData.set("quantity", quantity);
+        formData.set("stock", stock);
 
         book_img.forEach((image) => {
             formData.append("book_img", image);
@@ -181,15 +181,15 @@ const AddBook = () => {
                                             </div>
 
                                             <div className='form-group'>
-                                                <label htmlFor='exampleInputQuantity'>Quantity </label>
+                                                <label htmlFor='exampleInputQuantity'>Stock </label>
                                                 <input
-                                                    value={quantity}
-                                                    onChange={e => setQuantity(e.target.value)}
-                                                    type='text'
+                                                    value={stock}
+                                                    onChange={e => setStock(e.target.value)}
+                                                    type='number'
                                                     className='form-control'
                                                     id='exampleInputQuantity'
                                                     aria-describedby='emailHelp'
-                                                    placeholder='Quantity'
+                                                    placeholder='Stock'
                                                 />
                                             </div>
 
