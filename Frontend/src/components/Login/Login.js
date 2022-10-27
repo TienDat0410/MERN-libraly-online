@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserAction } from '../../redux/actions/users/userAction';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorMessage from '../Message/ErrorMessage';
 
 
@@ -39,7 +39,8 @@ const LoginUser = () => {
     }, [state]);
 
     return (
-        <div className='row container-height'>
+        <div className='Container'>
+        <div className='row container-height' style={{"marginTop": "200px"}}>
             <div className='col-lg-6 col-md-6 m-auto'>
                 <div className='container'>
                     {loading && <h1>Loading</h1>}
@@ -75,10 +76,15 @@ const LoginUser = () => {
                             <button type='submit' className='btn btn-primary'>
                                 Log In
                             </button>
+                            <div className='form-group'>
+                                <Link to="/register">Do not have an account?</Link> 
+                                
+                            </div>
                         </fieldset>
                     </form>
                 </div>
             </div>
+        </div>
         </div>
 
     );

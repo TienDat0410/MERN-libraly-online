@@ -84,7 +84,7 @@ const RegisterUser = () => {
     return (
         <Fragment>
 
-            <div className='row container-height'>
+            <div className='row container-height' style={{"marginTop": "200px"}}>
                 <div className='col-lg-6 col-md-6 m-auto'>
                     <div className='container'>
                         {loading && <Loading />}
@@ -158,7 +158,7 @@ const RegisterUser = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <button type='submit' className='btn btn-primary'>
+                                <button type='submit' className='btn btn-primary' style={{'margin-left': '200px'}}>
                                     Register
                                 </button>
                             </fieldset>

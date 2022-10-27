@@ -158,6 +158,7 @@ const userController = {
                 username: user.username,
                 password: user.password,
                 email: user.email,
+                avatar: user.avatar,
                 token: generateToken(user._id),
 
             });

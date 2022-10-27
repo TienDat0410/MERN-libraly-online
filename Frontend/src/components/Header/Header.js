@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUserAction } from '../../redux/actions/users/userAction';
+import "../../App.css";
 
 
-const Header = props => {
+const Header = () => {
     const dispatch = useDispatch();
     const url = "/";
     const history = useNavigate();
@@ -15,99 +16,225 @@ const Header = props => {
 
     const logoutHandler = () => {
         dispatch(logoutUserAction());
+        alert("Logged out successfully.");
         history({ url }); //useNagate is not reload page ????
         //reload page use javascript
         window.location.reload(false);
     };
     return (
-        <header>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-                <div className="container-fluid">
-                    <a className="navbar-brand" href={url}>Libraly-online</a>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className='nav nav-pills'>
-                            <li className='nav-item"'>
-                                <a className='nav-link active' href={url}>
-                                    Home <span class="visually-hidden">(current)</span>
-                                </a>
-                            </li>
-                            {!userInfo ? (
-                                <>
-                                    <li className='nav-item'>
-                                        <Link className='nav-link' to='/login'>
-                                            Login
-                                        </Link>
-                                    </li>
-                                    <li className='nav-item'>
-                                        <Link className='nav-link' to='/register'>
-                                            Register
-                                        </Link>
-                                    </li>
-                                </>
-                            ) : (
-                                <>
-                                    {/* <li className="nav-item dropdown">
-                                        <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                                        <div class="dropdown-menu" style="">
-                                            <Link className='nav-link' to='/getallbook'>
-                                                Books
+
+        <header
+            className="header-1 shadow-lg fixed-top mb-5"
+            style={{ backgroundColor: "#e3e1e1", padding: "0" }}
+        >
+            <div className="container-fluid">
+                <div
+                    className="row"
+                    style={{ justifyContent: "space-between !important" }}
+                >
+                    <div className=" col-lg-5 col-md-5 col-sm-2 col-8 d-flex align-items-center">
+                        <nav className="main-nav d-none d-lg-block">
+                            <ul className="d-flex align-items-center">
+                                <li className="menu-item">
+                                    <Link to="/" className="menu-link">
+                                        Home
+                                    </Link>
+                                </li>
+                                <li>
+                                    <ul className="d-flex">
+                                        <li>
+                                            <nav className="main-nav d-none d-lg-block">
+                                                <ul className="d-flex align-items-center">
+                                                    <li className="menu-item">
+                                                        <Link to="getallbook" className="menu-link ">
+                                                            Book
+                                                        </Link>
+                                                        <ul className="submenu-home1">
+                                                            <li>
+                                                                <Link to="">
+                                                                    #
+                                                                </Link>
+                                                            </li>
+
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li className="menu-item">
+                                    <Link to="/author" className="menu-link">
+                                        Author
+                                    </Link>
+                                </li>
+                            </ul>
+                        </nav>
+                        <nav className="main-nav d-block d-lg-none">
+                            <ul className="d-flex align-items-center">
+                                {userInfo ? (
+                                    <>
+                                        <li className="menu-item">
+                                            <a href="#" className="menu-link">
+                                                Menu
+                                            </a>
+                                            <ul className="submenu-home1">
+                                                {userInfo && userInfo.permission !== "admin" ? (
+                                                    <li>
+                                                        <Link to="/addbook">Add Book</Link>
+                                                    </li>
+                                                ) : (
+                                                    <li>
+                                                        <Link to="/dashboard">Dashboard</Link>
+                                                    </li>
+                                                )}
+
+                                                <li>
+                                                    <Link to="/profile">Profile</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/" onClick={logoutHandler}>
+                                                        Logout
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </>
+                                ) : (
+                                    <>
+                                        <li className="menu-item">
+                                            <Link to="/login">
+                                                <i className="las la-user"></i>
                                             </Link>
-                                            <Link className='nav-link' to='/addbook'>
-                                                Add book
-                                            </Link>
+                                        </li>
+                                    </>
+                                )}
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-4 ">
+                        <Link to="/" class="header-1-logo text-center" style={{ "color": "white" }}>
+                            <img src="/images/header-1-logo.svg" alt="" />
+                            Libraly-online
+                        </Link>
+                    </div>
+                    <div className=" col-lg-5 col-md-5 col-sm-8 d-sm-block d-none">
+                        <div className="header-right-area d-flex justify-content-end align-items-center">
+                            <div className="header-1-icons">
+                                <ul className="d-flex">
+                                    {userInfo ? (
+                                        <>
+                                            <li>
+                                                <nav className="main-nav d-none d-lg-block">
+                                                    <ul className="d-flex align-items-center">
+                                                        <li className="menu-item">
+                                                            <figure className="avatar avatar-nav">
+                                                                <img
+                                                                    src={userInfo.avatar && userInfo.avatar.url}
+                                                                    alt={userInfo && userInfo.username}
+                                                                    className="rounded-circle"
+                                                                />
+                                                            </figure>
+                                                            <Link to="" className="menu-link ">
+                                                                {userInfo.username}
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    width="16"
+                                                                    height="16"
+                                                                    fill="currentColor"
+                                                                    className="bi bi-caret-down-fill"
+                                                                    viewBox="0 0 16 16"
+                                                                >
+                                                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                                                </svg>
+                                                            </Link>
+                                                            <ul className="submenu-home1">
+                                                                {userInfo && userInfo.permission !== "admin" ? (
+                                                                    <li>
+                                                                        <Link to="/orders/me">Orders</Link>
+                                                                    </li>
+                                                                ) : (
+                                                                    <li>
+                                                                        <Link to="/dashboard">Dashboard</Link>
+                                                                    </li>
+                                                                )}
 
-                                        </div>
-                                    </li> */}
-                                    <li className='nav-item'>
-                                        <Link className='nav-link' to='/getallbook'>
-                                            Books
-                                        </Link>
-                                    </li>
-                                    <li className='nav-item'>
-                                        <Link className='nav-link' to='/addbook'>
-                                            Add book
-                                        </Link>
-                                    </li>
+                                                                <li>
+                                                                    <Link to="/profile">Profile</Link>
+                                                                </li>
+                                                                <Link
+                                                                    to="/"
+                                                                    className="text-danger"
+                                                                    onClick={logoutHandler}
+                                                                >
+                                                                    Logout
+                                                                </Link>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </li>
+                                        </>
+                                    ) : (
+                                        <ul className="d-flex">
+                                            <li>
+                                                <nav className="main-nav d-none d-lg-block">
+                                                    <ul className="d-flex align-items-center">
+                                                        <li className="menu-item">
+                                                            <Link to="/login" className="menu-link ">
+                                                                <i className="fa fa-user mt-3"></i>
+                                                            </Link>
+                                                            <ul className="submenu-home1">
+                                                                <li>
+                                                                    <Link to="/login">
+                                                                        Login
+                                                                    </Link>
+                                                                </li>
+                                                                <li>
+                                                                    <Link to="/register">
+                                                                        Register
+                                                                    </Link>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </li>
+                                        </ul>
 
-                                    <li className='nav-item'>
-                                        <Link className='nav-link' to='/profile'>
-                                            Users
-                                        </Link>
-                                    </li>
+                                    )}
 
-                                    <li className='nav-item'>
-                                        <Link className='nav-link' to='/profile'>
-                                            Profile
+                                    <li>
+                                        <Link to="/cart" style={{ textDacoration: "none" }}>
+                                            <div className="cart-btn position-relative mt-3">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="16"
+                                                    height="16"
+                                                    fill="currentColor"
+                                                    className="bi bi-minecart"
+                                                    viewBox="0 0 16 16"
+                                                >
+                                                    <path d="M4 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm8-1a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM.115 3.18A.5.5 0 0 1 .5 3h15a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 14 12H2a.5.5 0 0 1-.491-.408l-1.5-8a.5.5 0 0 1 .106-.411zm.987.82 1.313 7h11.17l1.313-7H1.102z" />
+                                                </svg>
+                                                <div className="cart-items-count">
+                                                    cart
+                                                </div>
+                                            </div>
                                         </Link>
                                     </li>
-
-                                    <li className='nav-item'>
-                                        <Link className='nav-link' to='/author'>
-                                            Authors
-                                        </Link>
-                                    </li>
-
-                                    <li className='nav-item'>
-                                        <Link
-                                            onClick={logoutHandler}
-                                            className='nav-link'
-                                            to='/login'>
-                                            Logout
-                                        </Link>
-                                    </li>
-                                </>
-                            )}
-                        </ul>
-                        <form className="d-flex" role="search">
-                            <input className="form-control me-sm-2" type="text" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                        </form>
+                                </ul>
+                            </div>
+                            <div className="header-1-contact d-flex align-items-center">
+                                <div className="contact-num">
+                                    <span>Hot Line Number</span>
+                                    <p>+84 08080808</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </nav>
+            </div>
         </header>
     );
 };

@@ -27,14 +27,14 @@ const Profile = () => {
       {error && <ErrorMessage>{error}</ErrorMessage>}
       {loading ? (<h3>Loading</h3>)
         : (
-          <div className='container'>
+          <div className='container' style={{"marginTop": "200px", "marginBottom": "200px"}}>
             <div className='row'>
               <div className='col mt-5'>
                 <div className='card m-auto ' style={{ width: '50%' }}>
-                  <img src={users && users.avatar.url} className='card-img-top' alt='...' />
-                  <div className='card-body'>
-                  <h5 className='card-title'>{users && users.username}</h5>
-                    <p className='card-text'>{users && users.email}</p>
+                  <img src={users && users.avatar.url} className='card-img-top' alt='...' style={{"margin-left": "30%", "margin-right": "30%"}} />
+                  <div className='card-body' style={{"paddingLeft": "5%"}}>
+                  <h5 className='card-title'>UserName: {users && users.username}</h5>
+                    <p className='card-text'>Email: {users && users.email}</p>
                     <Link to='/user-update' className='btn btn-success'>
                       Update your profile
                     </Link>
