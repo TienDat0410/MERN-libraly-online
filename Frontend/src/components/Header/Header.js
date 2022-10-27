@@ -17,9 +17,10 @@ const Header = () => {
     const logoutHandler = () => {
         dispatch(logoutUserAction());
         alert("Logged out successfully.");
+        window.location.reload(false);
         history({ url }); //useNagate is not reload page ????
         //reload page use javascript
-        window.location.reload(false);
+        
     };
     return (
 
@@ -46,7 +47,7 @@ const Header = () => {
                                             <nav className="main-nav d-none d-lg-block">
                                                 <ul className="d-flex align-items-center">
                                                     <li className="menu-item">
-                                                        <Link to="getallbook" className="menu-link ">
+                                                        <Link to="#" className="menu-link ">
                                                             Book
                                                         </Link>
                                                         <ul className="submenu-home1">
@@ -64,7 +65,7 @@ const Header = () => {
                                     </ul>
                                 </li>
                                 <li className="menu-item">
-                                    <Link to="/author" className="menu-link">
+                                    <Link to="/" className="menu-link">
                                         Author
                                     </Link>
                                 </li>
@@ -150,9 +151,12 @@ const Header = () => {
                                                             </Link>
                                                             <ul className="submenu-home1">
                                                                 {userInfo && userInfo.permission !== "admin" ? (
-                                                                    <li>
-                                                                        <Link to="/orders/me">Orders</Link>
-                                                                    </li>
+                                                                    <>
+                                                                        <li>
+                                                                            <Link to="/orders/me">Orders</Link>
+                                                                        </li>
+                                      
+                                                                    </>
                                                                 ) : (
                                                                     <li>
                                                                         <Link to="/dashboard">Dashboard</Link>

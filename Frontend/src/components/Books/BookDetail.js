@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, fetchBook, fetchBooks, updateBook } from '../../redux/actions/books/bookActions';
 import { addItemToCallCart } from '../../redux/actions/callcard/callCardAction';
-import Loader from "../../layout/Loader";
+import Loader from "../layout/Loader";
 import Moment from 'moment';
 
 import { Carousel } from "react-bootstrap";
@@ -62,7 +62,7 @@ const BookDetail = () => {
             ) : (
                 <Fragment>
                     <section className="prod-details pt-100 mt-5 mb-5">
-                        <div className="container">
+                        <div className="container" style={{"marginTop": "200px"}}>
                             <div className="row">
                                 <div className="col-lg-6">
                                     <div className="product-details-gallery">

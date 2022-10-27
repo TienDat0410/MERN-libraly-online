@@ -31,7 +31,7 @@ const Profile = () => {
             <div className='row'>
               <div className='col mt-5'>
                 <div className='card m-auto ' style={{ width: '50%' }}>
-                  <img src={users && users.avatar.url} className='card-img-top' alt='...' style={{"margin-left": "30%", "margin-right": "30%"}} />
+                  <img src={users && users.avatar.url} className='card-img-top' alt='...' style={{"width": "60%"}}/>
                   <div className='card-body' style={{"paddingLeft": "5%"}}>
                   <h5 className='card-title'>UserName: {users && users.username}</h5>
                     <p className='card-text'>Email: {users && users.email}</p>

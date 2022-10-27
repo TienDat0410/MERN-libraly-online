@@ -70,7 +70,7 @@ const UpdateProfile = () => {
     }
 
     return (
-        <div className='row container-height'>
+        <div className='row container-height' style={{"marginTop": "200px"}}>
             <div className='col-lg-6 col-md-6 m-auto'>
                 <div className='container'>
                     {error && <h1>{error}</h1>}
@@ -122,7 +122,7 @@ const UpdateProfile = () => {
                                                 src={avatarPreview}
                                                 className='rounded-circle'
                                                 alt='Avatar Preview'
-                                                style={{ height: "250px" }}
+                                              
                                             />
                                         </figure>
                                     </div>
