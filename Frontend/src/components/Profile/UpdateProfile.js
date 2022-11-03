@@ -122,6 +122,7 @@ const UpdateProfile = () => {
                                                 src={avatarPreview}
                                                 className='rounded-circle'
                                                 alt='Avatar Preview'
+                                                
                                               
                                             />
                                         </figure>

@@ -3,13 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createBookAction } from '../../redux/actions/books/bookActions';
 import { useNavigate } from "react-router-dom";
 import Sidebar from '../admin/Sidebar';
+import { fetchAuthors } from '../../redux/actions/author/authorActions';
 
 
 const AddBook = () => {
     const [book_name, setTitle] = useState('');
     const [publishedDate, setPublished] = useState('');
     const [genres, setGenres] = useState('');
-    const [author, setAuthor] = useState('');
+    //
+    const [authorName, setAuthor] = useState('');
+    //
     const [unitPrice, setUnitPrice] = useState(0);
     const [stock, setStock] = useState('');
     const [book_img, setBookImages] = useState([]);
@@ -27,14 +30,20 @@ const AddBook = () => {
     //
     const bookcreated = useSelector((state) => state.bookcreated);
     const { books, error, success } = bookcreated;
+    //
+    const authorsList = useSelector(state => state.authorsList);
+    const { authors } = authorsList;
     useEffect(() => {
+        dispatch(fetchAuthors());
         if (error) {
             alert.error(error);
-            dispatch()
+            dispatch();
         }
         if (success) {
             alert("Book created successfully");
             history('/getallbook');
+            window.location.reload(false);
+            
         }
     }, [dispatch, error, success]);
     //handle form submit
@@ -45,7 +54,7 @@ const AddBook = () => {
         formData.set("book_name", book_name);
         formData.set("publishedDate", publishedDate);
         formData.set("genres", genres);
-        formData.set("author", author);
+        formData.set("author", authorName);
         formData.set("unitPrice", unitPrice);
         formData.set("stock", stock);
 
@@ -54,13 +63,6 @@ const AddBook = () => {
         });
 
         dispatch(createBookAction(formData));
-
-        // if (books) {
-        //     alert('Created book successfully');
-        //     history('/getallbook');
-        // } else {
-        //     alert('Created book failed');
-        // }
     };
 
     const onChange = (e) => {
@@ -100,7 +102,7 @@ const AddBook = () => {
                                     onChange={e => setTitle(e.target.value)}
                                     type='text'
                                     id="name_field"
-                                    className='form-control'                               
+                                    className='form-control'
                                     placeholder='Book title'
                                 />
                             </div>
@@ -133,15 +135,18 @@ const AddBook = () => {
 
                             <div className='form-group'>
                                 <label htmlFor='exampleInputEmail1'>Author </label>
-                                <input
-                                    value={author}
-                                    onChange={e => setAuthor(e.target.value)}
-                                    type='text'
-                                    className='form-control'
-                                    id='exampleInputEmail1'
-                                    aria-describedby='emailHelp'
-                                    placeholder='Author name'
-                                />
+
+                                <select value={authorName} onChange={e => setAuthor(e.target.value)}>
+
+                                    <option >choose authors</option>
+                                    {authors &&
+                                        authors.map(auth => {
+                                            return (
+                                                <option value={auth._id} key={auth._id} >{auth.name}</option>
+                                            )
+                                        })};
+                                </select>
+                              
                             </div>
 
                             <div className='form-group'>

@@ -179,17 +179,6 @@ const userController = {
         } catch (err) {
             res.status(500).json(err);
         }
-        // try {
-        //     // const users = await User.findById(req.params.id).populate('books');
-        //     // if (!user) throw new Error("You don't have any profile yet");  
-        //     // res.status(200).json(users);
-        //     // this.ctx.response.set('content-type', response.headers['content-type'])
-        //     // console.log(res.json(users));
-        //     const user = await User.findById(req.params.id);
-        //     res.status(200).json(user);
-        // } catch (err) {
-        //     res.status(500).json(err);
-        // }
     },
 }
 

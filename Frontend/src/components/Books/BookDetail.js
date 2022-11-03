@@ -62,7 +62,7 @@ const BookDetail = () => {
             ) : (
                 <Fragment>
                     <section className="prod-details pt-100 mt-5 mb-5">
-                        <div className="container" style={{"marginTop": "200px"}}>
+                        <div className="container" style={{ "marginTop": "200px" }}>
                             <div className="row">
                                 <div className="col-lg-6">
                                     <div className="product-details-gallery">
@@ -77,19 +77,29 @@ const BookDetail = () => {
                                                         <div
                                                             className="gallery-big-image shadow-lg"
                                                             style={{ border: "none" }}>
-                                                            {/* <Carousel pause="hover">
-                                                                {book && book.map((book) => (
-                                                                    <Carousel.Item key={book.book_img.public_id}>
-                                                                        <img
-                                                                            className="d-block w-100"
-                                                                            src={book.book_img.url}
-                                                                            alt={book.book_name}
-                                                                        />
-                                                                    </Carousel.Item>
-                                                                ))}
 
+                                                            {/* {book && book.map(b => {
+                                                                return (
+                                                                    <Carousel pause="hover" key={b.book_img.public_id}>
+                                                                        <Carousel.Item >
+                                                                            <img
+                                                                                className="d-block w-100"
+                                                                                src={b.book_img.url}
+                                                                            />
+                                                                        </Carousel.Item>
+                                                                    </Carousel>
+                                                                )
+                                                            })}; */}
+
+                                                            {/* <Carousel pause="hover" key={book.book_img && book.book_img.public_id}>
+                                                                <Carousel.Item >
+                                                                    <img
+                                                                        className="d-block w-100"
+                                                                        src={book.book_img && book.book_img.url}
+                                                                    />
+                                                                </Carousel.Item>
                                                             </Carousel> */}
-                                                           
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -108,7 +118,7 @@ const BookDetail = () => {
                                                 <input
                                                     className="count p-1"
                                                     type="number"
-                                                    style={{"padding": "none"}}
+                                                    style={{ "padding": "none" }}
                                                     value={quantity}
                                                     readOnly />
                                                 <div
@@ -148,7 +158,7 @@ const BookDetail = () => {
                                             </div>
                                             <button
                                                 type="button" class="btn btn-warning"
-                                                style={{"margin-bottom": "50px", "margin-left": "10px"}}
+                                                style={{ "margin-bottom": "50px", "margin-left": "10px" }}
                                                 onClick={addToCallCart}
                                                 disabled={book.stock === 0}>
                                                 <a href="" className="eg-btn md--btn primary--btn">
