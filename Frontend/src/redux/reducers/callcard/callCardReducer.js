@@ -1,6 +1,6 @@
 const { ADD_TO_CALL_CART, REMOVE_ITEM_CALL_CART, SAVE_BOOk_LOAN_INFO } = require("../../actions/actionsTypes");
 
-const callCartReducer = (state = { callCardItems: [], loanInfo: {} }, action) => {
+const callCardReducer = (state = { callCardItems: [], loanInfo: {} }, action) => {
     switch (action.type) {
 
         case ADD_TO_CALL_CART:
@@ -39,4 +39,4 @@ const callCartReducer = (state = { callCardItems: [], loanInfo: {} }, action) =>
     }
 }
 
-export { callCartReducer };
+export { callCardReducer };

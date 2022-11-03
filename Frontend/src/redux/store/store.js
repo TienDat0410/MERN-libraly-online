@@ -8,6 +8,8 @@ import { userProfileReducer } from '../reducers/users/userProfileReducer';
 import userUpdateReducer from '../reducers/users/updateUserProfile';
 import bookDetailReducer from '../reducers/books/bookDetailsReducer';
 import authorListReducer from '../reducers/author/authorListReducer';
+import { callCardReducer, callCartReducer } from '../reducers/callcard/callCardReducer';
+import { allOrdersReducer, myOrdersReducer, newOrderReducer, orderDetailsReducer, orderReducer } from '../reducers/order/orderReducer';
 
 
 // const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -26,7 +28,13 @@ const reducer = combineReducers({
     authorsList: authorListReducer,
     //upload file
     // uploadFiles: uploadFileReducer,
-
+    cart: callCardReducer,
+    //
+    newOrder: newOrderReducer,
+	myOrders: myOrdersReducer,
+	allOrders: allOrdersReducer,
+	orderDetails: orderDetailsReducer,
+	order: orderReducer,
 });
 
 //Get user from local
@@ -45,7 +53,7 @@ const initialSate = {
     userLogin: {
         userInfo: userAuthFromStorage
     },
-    callCart: {
+    cart: {
         callCardItems: callCardItems,
 		loanInfo: loanInfo,
     }

@@ -42,6 +42,7 @@ const bookController = {
                 genres: req.body.genres,
                 author: req.body.author,
                 unitPrice: req.body.unitPrice,
+                stock: req.body.stock,
                 book_img: {
                     public_id: result.public_id,
                     url: result.secure_url,
@@ -93,7 +94,10 @@ const bookController = {
             const book = await Book.findByIdAndUpdate(req.params.id, req.body);
 
             // await book.updateOne({$set: req.body});
-            res.status(200).json(book);
+            res.status(200).json({
+                success: true,
+                book,
+            });
         } catch (err) {
             res.status(500).json(err);
         }

@@ -18,6 +18,12 @@ import BookHome from './components/Books/book';
 import ProtectedRoute from './components/routeAuth/ProtectedRoute';
 import Dashboard from './components/admin/Dashboard';
 import ListBooks from './components/admin/ListBook';
+import ListOrders from './components/order/ListOrders';
+import Cart from './components/Cart/Cart';
+import Shipping from './components/Cart/Shipping';
+import ConfirmOrder from './components/Cart/ConfirmOrder';
+import OrderSuccess from './components/Cart/OrderSuccess';
+import OrdersList from './components/admin/OrdersList';
 
 
 const App = () => {
@@ -39,6 +45,19 @@ const App = () => {
 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route exact path='/admin/listbook' element={<ListBooks />} />
+        <Route exact path='/orders/me' element={<ListOrders />} />
+        <Route exact path='/cart' element={<Cart />} />
+        <Route exact path='/shipping' element={<Shipping />} />
+        <Route exact path='/confirm' element={<ConfirmOrder />} />
+        <Route exact path='/success' element={<OrderSuccess />} />
+
+        <Route exact path='/admin/orders' element={<OrdersList />} />
+
+
+
+
+
+
 
       </Routes>
       <Footer />

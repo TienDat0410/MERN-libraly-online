@@ -12,6 +12,7 @@ const authorRoute = require("./routes/author");
 const bookRouter = require("./routes/book");
 const userRouter = require("./routes/user");
 const callcardRouter = require('./routes/callcard');
+const orderRouter = require('./routes/order');
 //middlewares
 const error = require('./middlewares/errorMiddlewareHandler');
 //upload file
@@ -102,6 +103,7 @@ app.use("/author", authorRoute);
 app.use("/book", bookRouter);
 app.use("/user", userRouter);
 app.use("/callcard", callcardRouter);
+app.use("/order", orderRouter);
 
 
 app.listen(port, () => {

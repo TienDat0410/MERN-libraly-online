@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const callcarddetailSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-
         ref: "User",
     },
     borrowedbook: [

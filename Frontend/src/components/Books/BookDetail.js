@@ -24,7 +24,9 @@ const BookDetail = () => {
     useEffect(() => {
         dispatch(fetchBook(id));
         dispatch(fetchBooks());
-
+        if(loading){
+            window.location.reload(false);
+        }
         // if (error) {
         //     alert(error);
         //     dispatch(clearErrors());
@@ -34,6 +36,7 @@ const BookDetail = () => {
     const addToCallCart = () => {
         dispatch(addItemToCallCart(id, quantity));
         alert("Item Added to Call Cart");
+        window.location.reload(false);
     };
     //set quantity
     const increaseQty = () => {

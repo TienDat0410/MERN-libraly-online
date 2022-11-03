@@ -12,16 +12,12 @@ const addItemToCallCart = (id, quantity) => async (dispatch, getState) => {
             book_name: data.book.book_name,
             unitPrice: data.book.unitPrice,
             book_img: data.book.book_img,
+            stock: data.book.stock,
             quantity,
         }
     })
 
-    // localStorage.setItem('callCartItems', JSON.stringify(getState().cart.callCartItems));
-    localStorage.setItem('callCardItems', JSON.stringify(data.data.book._id,
-        data.data.book.book_name,
-        data.data.book.unitPrice,
-        data.data.book.book_img,
-        quantity));
+    localStorage.setItem('callCardItems', JSON.stringify(getState().cart.callCardItems));
 
 }
 
