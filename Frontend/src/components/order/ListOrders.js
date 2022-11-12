@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from "../layout/Loader";
-import { clearErrors, myOrders } from '../../redux/actions/order/orderAction';
+import { allOrders, clearErrors, myOrders } from '../../redux/actions/order/orderAction';
 import { Link } from "react-router-dom";
 import { MDBDataTable } from "mdbreact";
 
@@ -20,11 +20,13 @@ const ListOrders = () => {
 
     useEffect(() => {
         dispatch(myOrders());
+        // dispatch(allOrders());
+
 
         if (error) {
             alert(error);
-            dispatch(clearErrors());
-        }
+            // dispatch(clearErrors());
+        };
     }, [dispatch, alert, error]);
 
 

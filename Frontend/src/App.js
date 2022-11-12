@@ -1,6 +1,6 @@
 
-import React, { Component } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import React, { Component, useEffect, useState } from 'react';
+import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 import './App.css';
 import AddBook from './components/Books/AddBooks';
 import Books from './components/Books/FetchBook';
@@ -15,7 +15,7 @@ import BookDetail from './components/Books/BookDetail';
 import Authors from './components/Authors/FetchAuthors';
 import Footer from './components/Footer/Footer';
 import BookHome from './components/Books/book';
-import ProtectedRoute from './components/routeAuth/ProtectedRoute';
+
 import Dashboard from './components/admin/Dashboard';
 import ListBooks from './components/admin/ListBook';
 import ListOrders from './components/order/ListOrders';
@@ -24,9 +24,41 @@ import Shipping from './components/Cart/Shipping';
 import ConfirmOrder from './components/Cart/ConfirmOrder';
 import OrderSuccess from './components/Cart/OrderSuccess';
 import OrdersList from './components/admin/OrdersList';
+import { getUserProfileAction } from './redux/actions/users/userAction';
 
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import Payment from './components/Cart/Payment';
+//
+import store from "./redux/store/store";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import ProcessOrder from './components/admin/ProcessOrder';
+//
+
+const stripePromise = loadStripe('pk_test_51M2RnIJWdYJbdc7DSlRkynwVzE1WCeqAtHMAMfiKNpuwrk5rLynWLZ90M68YWmOyzaZeRjNJZ6uTCY93GiIGv9B800vVgCD44D');
+// console.log(stripePromise);
 
 const App = () => {
+  const [stripeApiKey, setStripeApiKey] = useState("");
+  // const userLogin = useSelector(state => state.userLogin);
+  // const { userInfo } = userLogin;
+  // const dispatch = useDispatch();
+
+  useEffect(() => {
+    // store.dispatch(getUserProfileAction());
+    // dispatch(getUserProfileAction());
+
+    async function getStripApiKey() {
+
+
+      const { data } = await axios.get("/payment/stripeapi");
+
+      setStripeApiKey(data.stripeApiKey);
+    }
+
+    getStripApiKey();
+  }, []);
   return (
     <BrowserRouter>
       <Header />
@@ -46,23 +78,34 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route exact path='/admin/listbook' element={<ListBooks />} />
         <Route exact path='/orders/me' element={<ListOrders />} />
+        {/* đang test */}
+        <Route exact path='/orders/list' element={<OrdersList />} />
+        <Route exact path='/order/auth/:id' element={<ProcessOrder />} />
+        {/* <Route exact path='/order/auth/:id' element={<ProcessOrder />} /> */}
+
+
+
+
         <Route exact path='/cart' element={<Cart />} />
         <Route exact path='/shipping' element={<Shipping />} />
         <Route exact path='/confirm' element={<ConfirmOrder />} />
+
+        <Route path='/payment' element={stripeApiKey &&
+        <Elements stripe={loadStripe(stripeApiKey)}> <Payment /></Elements>} exact />
+
+
+        {/* <Elements stripe={stripePromise}>
+          <Route exact path='/payment' element={<Payment />} />
+        </Elements> */}
+
+
+
         <Route exact path='/success' element={<OrderSuccess />} />
 
         <Route exact path='/admin/orders' element={<OrdersList />} />
 
-
-
-
-
-
-
       </Routes>
       <Footer />
-        
-     
     </BrowserRouter>
 
   );

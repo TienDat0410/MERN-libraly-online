@@ -1,6 +1,6 @@
 import { BOOK_DETAIL_FAIL, BOOK_DETAIL_REQUEST, BOOK_DETAIL_SUCCESS, CLEAR_ERRORS } from "../../actions/actionsTypes";
 
-const bookDetailReducer = (state = { book: [] }, action) => {
+const bookDetailReducer = (state = { book: {} }, action) => {
   switch (action.type) {
     case BOOK_DETAIL_REQUEST:
       return {

@@ -7,80 +7,101 @@ import Sidebar from './Sidebar'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Loading from '../Loading/loading'
-import { allOrders, clearErrors } from '../../redux/actions/order/orderAction'
+import { allOrders, clearErrors, myOrders, deleteOrder } from '../../redux/actions/order/orderAction'
+import Loader from '../layout/Loader'
 
 const OrdersList = () => {
-
+	// const { id } = useParams();
 	const history = useNavigate();
-	const dispatch = useDispatch();
 
-	const { loading, error, orders } = useSelector(state => state.allOrders);
-	const { isDeleted } = useSelector(state => state.order)
+	//Get the book details and fill it in the form
+	const { loading, error, orders } = useSelector((state) => state.myOrders);
+
+	const dispatch = useDispatch();
+	//
 
 	useEffect(() => {
-		dispatch(allOrders());
+		dispatch(myOrders());
+		// dispatch(allOrders());
+
 
 		if (error) {
 			alert(error);
-			dispatch(clearErrors())
-		}
+			// dispatch(clearErrors());
+		};
+	}, [dispatch, alert, error]);
 
-		// if (isDeleted) {
-		// 	alert.success('Order deleted successfully');
-		// 	history.push('/admin/orders');
-		// 	dispatch({ type: DELETE_ORDER_RESET })
-		// }
+	const deleteOrderHandler = (id) => {
+		dispatch(deleteOrder(id));
+		history('/orders/list');
+	}
 
-	}, [dispatch, alert, error, history])
 
-	// const deleteOrderHandler = (id) => {
-	// 	dispatch(deleteOrder(id))
-	// }
 
 	const setOrders = () => {
 		const data = {
 			columns: [
 				{
-					label: 'Order ID',
-					field: 'id',
-					sort: 'asc'
+					label: "Order ID",
+					field: "id",
+					sort: "asc",
 				},
 				{
-					label: 'No of Items',
-					field: 'numofItems',
-					sort: 'asc'
+					label: "Num of Items",
+					field: "numOfItems",
+					sort: "asc",
 				},
 				{
-					label: 'Amount',
-					field: 'amount',
-					sort: 'asc'
+					label: "Amount",
+					field: "amount",
+					sort: "asc",
 				},
 				{
-					label: 'Status',
-					field: 'status',
-					sort: 'asc'
+					label: "Status",
+					field: "status",
+					sort: "asc",
 				},
 				{
-					label: 'Actions',
-					field: 'actions',
+					label: "Actions",
+					field: "actions",
+					sort: "asc",
 				},
 			],
-			rows: []
-		}
+			rows: [],
+		};
 
+		// orders.forEach((order) => {
+		// 	data.rows.push({
+		// 		id: order._id,
+		// 		numOfItems: order.callCardItems.length,
+		// 		amount: `$${order.totalPrice}`,
+		// 		status:
+		// 			order.orderStatus &&
+		// 				String(order.orderStatus).includes("Delivered") ? (
+		// 				<p style={{ color: "green" }}>{order.orderStatus}</p>
+		// 			) : (
+		// 				<p style={{ color: "red" }}>{order.orderStatus}</p>
+		// 			),
+		// 		actions: (
+		// 			<Link to={`/order/auth/${order && order._id}`} className="btn btn-primary">
+		// 				<i className="fa fa-eye"></i>
+		// 			</Link>
+		// 		),
+		// 	});
+		// });
 		orders.forEach(order => {
 			data.rows.push({
 				id: order._id,
-				numofItems: order.orderItems.length,
+				numofItems: order.callCardItems.length,
 				amount: `$${order.totalPrice}`,
 				status: order.orderStatus && String(order.orderStatus).includes('Delivered')
 					? <p style={{ color: 'green' }}>{order.orderStatus}</p>
 					: <p style={{ color: 'red' }}>{order.orderStatus}</p>,
 				actions: <Fragment>
-					<Link to={`/admin/order/${order._id}`} className="btn btn-primary py-1 px-2">
+					<Link to={`/order/auth/${order._id}`} className="btn btn-primary py-1 px-2">
 						<i className="fa fa-eye"></i>
 					</Link>
-					<button className="btn btn-danger py-1 px-2 ml-2" >
+					<button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteOrderHandler(order._id)}>
 						<i className="fa fa-trash"></i>
 					</button>
 				</Fragment>
@@ -88,8 +109,7 @@ const OrdersList = () => {
 		})
 
 		return data;
-	}
-
+	};
 
 	return (
 		<Fragment>
@@ -102,7 +122,7 @@ const OrdersList = () => {
 					<Fragment>
 						<h1 className="my-5">All Orders</h1>
 
-						{loading ? <Loading /> : (
+						{loading ? <Loader /> : (
 							<MDBDataTable
 								data={setOrders()}
 								className="px-3"
@@ -120,4 +140,4 @@ const OrdersList = () => {
 	)
 }
 
-export default OrdersList
+export default OrdersList;

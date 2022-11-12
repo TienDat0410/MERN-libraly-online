@@ -41,12 +41,12 @@ const bookController = {
                 publishedDate: req.body.publishedDate,
                 genres: req.body.genres,
                 author: req.body.author,
-                unitPrice: req.body.unitPrice,
+                unitPrice: req.body.unitPrice,           
                 stock: req.body.stock,
-                book_img: {
+                book_img: [{
                     public_id: result.public_id,
                     url: result.secure_url,
-                },
+                }],
                 createdBy: userId,
             });
             // const book = await Book.create(req.body);

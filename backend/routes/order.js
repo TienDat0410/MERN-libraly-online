@@ -12,6 +12,15 @@ router.get('/me', authMiddlware, oderController.myOrders);
 
 router.get('/auth/', authMiddlware, oderController.allOrders);
 
+router.put('/update/:id', authMiddlware, oderController.updateOrder);
+
+router.delete('/delete/:id', authMiddlware, oderController.deleteOrder);
+
+
+
+
+
+
 
 
 

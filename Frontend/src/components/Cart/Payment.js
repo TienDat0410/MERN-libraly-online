@@ -1,21 +1,20 @@
 import React, { Fragment, useEffect } from "react";
-
-import MetaData from "../layout/MetaData";
 import CheckoutSteps from "./CheckoutSteps";
-
-import { useAlert } from "react-alert";
+import { Link, useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrder, clearErrors } from "../../actions/orderActions";
+import { clearErrors, createOrder } from '../../redux/actions/order/orderAction';
 
 import {
+  CardElement,
+  Elements,
   useStripe,
   useElements,
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,
-} from "@stripe/react-stripe-js";
-
+} from '@stripe/react-stripe-js';
 import axios from "axios";
+
 
 const options = {
   style: {
@@ -28,38 +27,39 @@ const options = {
   },
 };
 
-const Payment = ({ history }) => {
-  const alert = useAlert();
+const Payment = () => {
+  const history = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.auth);
-  const { cartItems, shippingInfo } = useSelector((state) => state.cart);
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+  const { callCardItems, loanInfo } = useSelector((state) => state.cart);
   const { error } = useSelector((state) => state.newOrder);
 
   useEffect(() => {
+    
     if (error) {
-      alert.error(error);
+      alert(error);
       dispatch(clearErrors());
     }
   }, [dispatch, alert, error]);
 
   const order = {
-    orderItems: cartItems,
-    shippingInfo,
+    callCardItems: callCardItems,
+    loanInfo,
   };
 
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
   if (orderInfo) {
     order.itemsPrice = orderInfo.itemsPrice;
     order.shippingPrice = orderInfo.shippingPrice;
-    order.taxPrice = orderInfo.taxPrice;
     order.totalPrice = orderInfo.totalPrice;
   }
 
   const paymentData = {
-    amount: Math.round(orderInfo.totalPrice * 100),
+    amount: Math.round(orderInfo.totalPrice * 1),
   };
 
   const submitHandler = async (e) => {
@@ -71,12 +71,14 @@ const Payment = ({ history }) => {
     try {
       const config = {
         headers: {
+          authorization: `tiendat ${userInfo.token}`,
           "Content-Type": "application/json",
         },
       };
 
-      res = await axios.post("/api/v1/payment/process", paymentData, config);
 
+      res = await axios.post("/payment/process", paymentData, config);
+      
       const clientSecret = res.data.client_secret;
 
       if (!stripe || !elements) {
@@ -86,15 +88,16 @@ const Payment = ({ history }) => {
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardNumberElement),
-          billing_details: {
-            name: user.name,
-            email: user.email,
-          },
+          // billing_details: {
+          //   user: userInfo.username,
+          //   email: userInfo.email,
+          // },
         },
       });
 
       if (result.error) {
-        alert.error(result.error.message);
+        alert("lỗi thanh toán!");
+        alert(result.error.message);
         document.querySelector("#pay_btn").disabled = false;
       } else {
         // The payment is processed or not
@@ -102,24 +105,24 @@ const Payment = ({ history }) => {
           order.paymentInfo = {
             id: result.paymentIntent.id,
             status: result.paymentIntent.status,
+            user: userInfo._id,
           };
 
           dispatch(createOrder(order));
 
-          history.push("/success");
+          history("/success");
         } else {
-          alert.error("There is some issue while payment processing");
+          alert("There is some issue while payment processing");
         }
       }
     } catch (error) {
       document.querySelector("#pay_btn").disabled = false;
-      alert.error(error.response.data.message);
+      alert(error);
     }
   };
 
   return (
     <Fragment>
-      <MetaData title={"Payment"} />
 
       <CheckoutSteps shipping confirmOrder payment />
 

@@ -68,7 +68,7 @@ const store = createStore(
     // composeEnhancer(applyMiddleware(thunk))
 );
 
-export { store };
+export default store;
 
 
 

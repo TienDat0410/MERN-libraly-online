@@ -43,7 +43,7 @@ const bookSchema = new mongoose.Schema({
         maxLength: [100, "book name cannot exceed 5 characters"],
         default: 0,
     },
-    book_img: {
+    book_img: [{
         public_id: {
             type: String,
         },
@@ -51,7 +51,7 @@ const bookSchema = new mongoose.Schema({
             type: String,
             // required: true,
         },
-    },
+    }],
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

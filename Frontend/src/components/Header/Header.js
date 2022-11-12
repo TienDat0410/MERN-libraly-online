@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUserAction } from '../../redux/actions/users/userAction';
 import "../../App.css";
+import { removeItemFromCart } from '../../redux/actions/callcard/callCardAction';
 
 
 const Header = () => {
@@ -15,12 +16,13 @@ const Header = () => {
     //logout handler
 
     const logoutHandler = () => {
+        dispatch(removeItemFromCart());
         dispatch(logoutUserAction());
         alert("Logged out successfully.");
         window.location.reload(false);
         history({ url }); //useNagate is not reload page ????
         //reload page use javascript
-        
+
     };
     return (
 
@@ -82,14 +84,16 @@ const Header = () => {
                                             <ul className="submenu-home1">
                                                 {userInfo && userInfo.permission !== "admin" ? (
                                                     <li>
-                                                        <Link to="/addbook">Add Book</Link>
+                                                        <Link to="/orders/me">Orders</Link>
                                                     </li>
                                                 ) : (
                                                     <li>
                                                         <Link to="/dashboard">Dashboard</Link>
                                                     </li>
                                                 )}
-
+                                                <li>
+                                                    <Link to="/orders/me">MyOrders</Link>
+                                                </li>
                                                 <li>
                                                     <Link to="/profile">Profile</Link>
                                                 </li>
@@ -155,13 +159,16 @@ const Header = () => {
                                                                         <li>
                                                                             <Link to="/orders/me">Orders</Link>
                                                                         </li>
-                                      
+
                                                                     </>
                                                                 ) : (
                                                                     <li>
                                                                         <Link to="/dashboard">Dashboard</Link>
                                                                     </li>
                                                                 )}
+                                                                <li>
+                                                                    <Link to="/orders/me">MyOrders</Link>
+                                                                </li>
 
                                                                 <li>
                                                                     <Link to="/profile">Profile</Link>

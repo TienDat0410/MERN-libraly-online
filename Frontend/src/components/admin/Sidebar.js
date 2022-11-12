@@ -60,7 +60,7 @@ const Sidebar = () => {
 					</li>
 
 					<li>
-						<Link to="/admin/orders">
+						<Link to="/orders/list">
 							<i className="fa fa-shopping-basket"></i> Call Card
 						</Link>
 					</li>

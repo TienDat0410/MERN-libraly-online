@@ -24,7 +24,7 @@ const BookDetail = () => {
     useEffect(() => {
         dispatch(fetchBook(id));
         dispatch(fetchBooks());
-        if(loading){
+        if (loading) {
             window.location.reload(false);
         }
         // if (error) {
@@ -36,7 +36,8 @@ const BookDetail = () => {
     const addToCallCart = () => {
         dispatch(addItemToCallCart(id, quantity));
         alert("Item Added to Call Cart");
-        window.location.reload(false);
+        history('/');
+        // window.location.reload(false);
     };
     //set quantity
     const increaseQty = () => {
@@ -81,27 +82,17 @@ const BookDetail = () => {
                                                             className="gallery-big-image shadow-lg"
                                                             style={{ border: "none" }}>
 
-                                                            {/* {book && book.map(b => {
-                                                                return (
-                                                                    <Carousel pause="hover" key={b.book_img.public_id}>
-                                                                        <Carousel.Item >
-                                                                            <img
-                                                                                className="d-block w-100"
-                                                                                src={b.book_img.url}
-                                                                            />
-                                                                        </Carousel.Item>
-                                                                    </Carousel>
-                                                                )
-                                                            })}; */}
+                                                            <div className="gallery-big-image shadow-lg" style={{ border: "none" }}>
+                                                                {book.book_img && book.book_img.map(b => (
+                                                                    <div key={b.public_id}>
+                                                                        <img
+                                                                            className="d-block w-100"
+                                                                            src={b.url}
+                                                                        />
+                                                                    </div>
+                                                                ))};
 
-                                                            {/* <Carousel pause="hover" key={book.book_img && book.book_img.public_id}>
-                                                                <Carousel.Item >
-                                                                    <img
-                                                                        className="d-block w-100"
-                                                                        src={book.book_img && book.book_img.url}
-                                                                    />
-                                                                </Carousel.Item>
-                                                            </Carousel> */}
+                                                            </div>
 
                                                         </div>
                                                     </div>

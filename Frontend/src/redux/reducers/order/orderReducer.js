@@ -138,14 +138,14 @@ export const orderReducer = (state = {}, action) => {
             return {
                 ...state,
                 loading: false,
-                isUpdated: action.payload
+                success: action.payload
             }
 
         case DELETE_ORDER_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                isDeleted: action.payload
+                success: action.payload
             }
 
         case UPDATE_ORDER_FAIL:
@@ -158,13 +158,13 @@ export const orderReducer = (state = {}, action) => {
         case UPDATE_ORDER_RESET:
             return {
                 ...state,
-                isUpdated: false
+                success: false
             }
 
         case DELETE_ORDER_RESET:
             return {
                 ...state,
-                isDeleted: false
+                success: false
             }
 
         case CLEAR_ERRORS:

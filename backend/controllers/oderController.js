@@ -39,15 +39,12 @@ const oderController = {
         }
     },
     // Get single order /order/:id
-    getSingleOrder: async (req, res, next) => {
+    getSingleOrder: async (req, res,) => {
         try {
-            const order = await Order.findById(req.params.id).populate(
-                "user",
-                "username email"
-            );
+            const order = await Order.findById(req.params.id).populate("user");
 
             if (!order) {
-                return next(new ErrorHandler("No Order found with this ID", 404));
+                throw new Error('Not order!');
             }
             res.status(200).json({
                 success: true,
@@ -57,7 +54,6 @@ const oderController = {
             res.status(500).json(err);
             console.log(err);
         }
-
     },
     // Get logged in user orders   =>   //orders/me
     myOrders: async (req, res, next) => {

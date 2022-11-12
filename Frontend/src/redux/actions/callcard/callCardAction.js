@@ -11,7 +11,8 @@ const addItemToCallCart = (id, quantity) => async (dispatch, getState) => {
             _id: data.book._id,
             book_name: data.book.book_name,
             unitPrice: data.book.unitPrice,
-            book_img: data.book.book_img,
+            book_img: data.book.book_img[0].url,
+            book: data.book._id,
             stock: data.book.stock,
             quantity,
         }

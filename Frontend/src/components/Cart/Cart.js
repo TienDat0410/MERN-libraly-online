@@ -52,9 +52,9 @@ const Cart = () => {
 
                   <div className="cart-item" key={item._id}>
                     <div className="row">
-                      <div className="col-4 col-lg-3" key={item.book_img.public_id}>
+                      <div className="col-4 col-lg-3">
                         <img
-                          src={item.book_img.url}
+                          src={item.book_img}
                           alt="Laptop"
                           height="90"
                           width="115"
@@ -68,7 +68,8 @@ const Cart = () => {
                       </div>
 
                       <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                        <p id="card_item_price">${item.unitPrice}</p>
+                        <p id="card_item_price">{item.unitPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</p>
+
                       </div>
 
                       <div className="col-4 col-lg-3 mt-4 mt-lg-0">
@@ -107,9 +108,10 @@ const Cart = () => {
                       <div className="col-4 col-lg-1 mt-4 mt-lg-0">
                         <i
                           id="delete_cart_item"
+                          style={{color: "white"}}
                           className="fa fa-trash btn btn-danger"
                           onClick={() => removeCartItemHandler(item._id)}
-                        ></i>
+                        >Remote</i>
                       </div>
                     </div>
                   </div>

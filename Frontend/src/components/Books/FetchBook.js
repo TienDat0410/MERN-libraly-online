@@ -48,8 +48,7 @@ const Books = () => {
                                         <tr>
                                             <th scope='col'>Book Name</th>
                                             <th scope='col'>publishedDate</th>
-                                            <th scope='col'>genres</th>
-                                            {/* <th scope='col'>Author</th> */}
+                                            <th scope='col'>genres</th>        
                                             <th scope='col'>unitPrice</th>
                                             <th scope='col'>Book image</th>
                                             <th scope='col'>Action</th>
@@ -69,7 +68,7 @@ const Books = () => {
                                                         <td>{book.unitPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
                                                         <td key={book.book_img.public_id}>
 
-                                                            <img src={book.book_img.url} style={{ height: '350px' }} />
+                                                            <img src={book.book_img[0].url} style={{ height: '350px' }} />
                                                         </td>
                                                         <td>
                                                             <button

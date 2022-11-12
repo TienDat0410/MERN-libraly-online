@@ -36,7 +36,7 @@ const BookHome = () => {
                                 <Link to={`/bookDetail/${book && book._id}`} key={book.book_img.public_id} >
                                     <img
                                         className="p-3"
-                                        src={book.book_img.url}
+                                        src={book.book_img[0].url}
                                         alt="Product Img"
                                         style={{ width: "100%" }}
                                     />

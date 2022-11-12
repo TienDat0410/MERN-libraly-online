@@ -4,19 +4,19 @@ const orderSchema = mongoose.Schema({
     loanInfo: {
         address: {
             type: String,
-            required: true
+            
         },
         city: {
             type: String,
-            required: true
+            
         },
         phoneNo: {
             type: String,
-            required: true
+            
         },
         country: {
             type: String,
-            required: true
+            
         }
     },
     user: {
@@ -26,21 +26,21 @@ const orderSchema = mongoose.Schema({
     },
     callCardItems: [
         {
-            name: {
+            book_name: {
                 type: String,
                 required: true
             },
             quantity: {
                 type: Number,
-                required: true
+               
             },
-            image: {
+            book_img: {
                 type: String,
                 
             },
-            price: {
+            unitPrice: {
                 type: Number,
-                required: true
+                
             },
             book: {
                 type: mongoose.Schema.Types.ObjectId,

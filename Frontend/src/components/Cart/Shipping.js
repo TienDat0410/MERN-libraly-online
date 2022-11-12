@@ -6,13 +6,14 @@ import CheckoutSteps from './CheckoutSteps'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { saveLoanInfo } from '../../redux/actions/callcard/callCardAction'
+import { clearErrors } from '../../redux/actions/order/orderAction';
 
 
 const Shipping = () => {
     const history = useNavigate();
     const countriesList = Object.values(countries)
 
-    const { loanInfo } = useSelector(state => state.cart)
+    const { loanInfo, callCardItems } = useSelector(state => state.cart)
 
     const [address, setAddress] = useState(loanInfo.address)
     const [city, setCity] = useState(loanInfo.city)
@@ -22,10 +23,11 @@ const Shipping = () => {
     const dispatch = useDispatch();
 
     const submitHandler = (e) => {
-        e.preventDefault()
-
-        dispatch(saveLoanInfo({ address, city, phoneNo, country }))
-        history('/confirm')
+        e.preventDefault();
+        //save LoanInfo
+        dispatch(saveLoanInfo({ address, city, phoneNo, country }));
+        //
+        history('/confirm');
     }
 
     return (
@@ -98,7 +100,7 @@ const Shipping = () => {
                             className="btn btn-block py-3"
                         >
                             CONTINUE
-                            </button>
+                        </button>
                     </form>
                 </div>
             </div>

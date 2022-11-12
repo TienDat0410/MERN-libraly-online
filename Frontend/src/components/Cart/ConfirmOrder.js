@@ -1,9 +1,16 @@
 import React, { Fragment } from 'react'
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CheckoutSteps from './CheckoutSteps'
 
 import { useSelector } from 'react-redux'
 
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import Payment from './Payment';
+
+
+
+const stripePromise = loadStripe('pk_test_51M2RnIJWdYJbdc7DSlRkynwVzE1WCeqAtHMAMfiKNpuwrk5rLynWLZ90M68YWmOyzaZeRjNJZ6uTCY93GiIGv9B800vVgCD44D');
 const ConfirmOrder = () => {
     const history = useNavigate();
 
@@ -19,18 +26,17 @@ const ConfirmOrder = () => {
     const processToPayment = () => {
         const data = {
             itemsPrice: itemsPrice.toFixed(2),
-            shippingPrice,          
+            shippingPrice,
             totalPrice,
         }
 
-        sessionStorage.setItem('orderInfo', JSON.stringify(data))
-        history('/success');
+        sessionStorage.setItem('orderInfo', JSON.stringify(data));
+
+        history('/payment');
     }
 
     return (
         <Fragment>
-
-
             <CheckoutSteps shipping confirmOrder />
 
             <div className="row d-flex justify-content-between">
@@ -49,8 +55,8 @@ const ConfirmOrder = () => {
                             <hr />
                             <div className="cart-item my-1" key={item._id}>
                                 <div className="row">
-                                    <div className="col-4 col-lg-2" key={item.book_img.public_id}>
-                                        <img src={item.book_img.url} alt="Laptop" height="45" width="65" />
+                                    <div className="col-4 col-lg-2">
+                                        <img src={item.book_img} alt="Laptop" height="45" width="65" />
                                     </div>
 
                                     <div className="col-5 col-lg-6">
@@ -59,7 +65,7 @@ const ConfirmOrder = () => {
 
 
                                     <div className="col-4 col-lg-4 mt-4 mt-lg-0">
-                                        <p>{item.quantity} x ${item.unitPrice} = <b>${(item.quantity * item.unitPrice).toFixed(2)}</b></p>
+                                        <p>{item.quantity} x {item.unitPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} = <b>{(item.quantity * item.unitPrice).toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</b></p>
                                     </div>
 
                                 </div>
@@ -67,6 +73,9 @@ const ConfirmOrder = () => {
                             <hr />
                         </Fragment>
                     ))}
+                     {/* <Elements stripe={stripePromise}>
+                            <Payment />
+                        </Elements> */}
 
 
 
@@ -76,15 +85,16 @@ const ConfirmOrder = () => {
                     <div id="order_summary">
                         <h4>Order Summary</h4>
                         <hr />
-                        <p>Subtotal:  <span className="order-summary-values">${itemsPrice}</span></p>
-                        <p>Shipping: <span className="order-summary-values">${shippingPrice}</span></p>
-            
+                        <p>Subtotal:  <span className="order-summary-values">{itemsPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</span></p>
+                        <p>Shipping: <span className="order-summary-values">{shippingPrice}VND</span></p>
+
 
                         <hr />
 
-                        <p>Total: <span className="order-summary-values">${totalPrice}</span></p>
+                        <p>Total: <span className="order-summary-values">{totalPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}VND</span></p>
 
                         <hr />
+                       
                         <button id="checkout_btn" className="btn btn-primary btn-block" onClick={processToPayment}>Proceed to Payment</button>
                     </div>
                 </div>
