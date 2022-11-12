@@ -23,8 +23,7 @@ const ListBooks = () => {
     const handlerDeleteBook = id => {
         dispatch(deleteBook(id));
         alert('Delete Success');
-        history('/books');
-        window.location.replace('/books');
+        history('/getallbook');
     };
     //
     const setBooks = () => {
@@ -56,13 +55,8 @@ const ListBooks = () => {
 					sort: 'asc'
 				},
                 {
-					label: 'createdAt',
-					field: 'createdAt',
-					sort: 'asc'
-				},
-                {
-					label: 'Book picture',
-					field: 'book.book_img.url',
+					label: 'stock',
+					field: 'stock',
 					sort: 'asc'
 				},
 				{
@@ -77,14 +71,13 @@ const ListBooks = () => {
 			data.rows.push({
 				id: book._id,
 				book_name: book.book_name,
-				publishedDate: book.publishedDate,
+				publishedDate: Moment(book.publishedDate).calendar(),
 				genres: book.genres,
-				unitPrice: book.unitPrice,
-				createdAt: book.createdAt,
-                book_img: book.book_img.url,
+				unitPrice: book.unitPrice,			
+                stock: book.stock,
 				actions: <Fragment>
-					<Link to={`/bookdetail/${book && book._id}`} className="btn btn-primary py-1 px-2">
-						<i className="fa fa-pencil">Details</i>
+					<Link to={`/bookupdate/${book && book._id}`} className="btn btn-primary py-1 px-2">
+						<i className="fa fa-pencil">Update</i>
 					</Link>
 					<button className="btn btn-danger py-1 px-2 ml-2" onClick={() => handlerDeleteBook(book._id)}>
 						<i className="fa fa-trash"></i>

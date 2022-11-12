@@ -41,7 +41,7 @@ const bookController = {
                 publishedDate: req.body.publishedDate,
                 genres: req.body.genres,
                 author: req.body.author,
-                unitPrice: req.body.unitPrice,           
+                unitPrice: req.body.unitPrice,
                 stock: req.body.stock,
                 book_img: [{
                     public_id: result.public_id,
@@ -59,7 +59,7 @@ const bookController = {
             res.status(201).json({
                 success: true,
                 book,
-              });
+            });
         } catch (err) {
             res.status(500).json(err);
             console.log(err);
@@ -88,10 +88,53 @@ const bookController = {
         }
     },
     //update book
-    updateBook: async (req, res) => {
+    updateBook: async (req, res, next) => {
         try {
+            let book = await Book.findById(req.params.id);
+
+            if (!book) {
+                return next(new ErrorHandler("book not found", 404));
+            }
+
+            let book_img = [];
+            if (typeof req.body.book_img === "string") {
+                book_img.push(req.body.book_img);
+            } else {
+                book_img = req.body.book_img;
+            }
+
+            if (book_img !== undefined) {
+                // Deleting book_img associated with the product
+                for (let i = 0; i < book.book_img.length; i++) {
+                  const result = await cloudinary.uploader.destroy(
+                    book.book_img[i].public_id
+                  );
+                }
+            
+                let imagesLinks = [];
+            
+                for (let i = 0; i < book_img.length; i++) {
+                  const result = await cloudinary.uploader.upload(book_img[i], {
+                    folder: "books",
+                  });
+            
+                  imagesLinks.push({
+                    public_id: result.public_id,
+                    url: result.secure_url,
+                  });
+                }
+            
+                req.body.book_img = imagesLinks;
+              }
+
+
+
             // const book = await Book.findById(req.params.id);
-            const book = await Book.findByIdAndUpdate(req.params.id, req.body);
+            book = await Book.findByIdAndUpdate(req.params.id, req.body, {
+                new: true,
+                runValidators: true,
+                useFindAndModify: false,
+            });
 
             // await book.updateOne({$set: req.body});
             res.status(200).json({

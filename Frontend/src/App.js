@@ -34,6 +34,11 @@ import store from "./redux/store/store";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import ProcessOrder from './components/admin/ProcessOrder';
+import UpdateBook from './components/admin/UpdateBook';
+import NewAuthor from './components/Authors/addAuthors';
+import ListAuthors from './components/Authors/ListAuthors';
+import UsersList from './components/admin/UsersList';
+import UpdateUserAdmin from './components/admin/UpdateUser';
 //
 
 const stripePromise = loadStripe('pk_test_51M2RnIJWdYJbdc7DSlRkynwVzE1WCeqAtHMAMfiKNpuwrk5rLynWLZ90M68YWmOyzaZeRjNJZ6uTCY93GiIGv9B800vVgCD44D');
@@ -64,14 +69,30 @@ const App = () => {
       <Header />
       <Routes>
         <Route exact path='/' element={<Home />} />
+        <Route exact path="/search/:keyword" element={<Home />} />
+
+        {/* test datatable */}
         <Route exact path='/bookhome' element={<BookHome />} />
+
         <Route exact path='/profile' element={<Profile />} />
         <Route exact path='/user-update' element={<UpdateProfile />} />
+        <Route exact path='/admin/users' element={<UsersList />} />
+        <Route exact path='/admin/updateUser/:id' element={<UpdateUserAdmin />} />
+
+
 
         <Route exact path='/addbook' element={<AddBook />} />
         <Route exact path='/getallbook' element={<Books />} />
         <Route exact path='/bookdetail/:id' element={<BookDetail />} />
+        <Route exact path='/bookupdate/:id' element={<UpdateBook />} />
+
+
         <Route exact path='/author' element={<Authors />} />
+        <Route exact path='/listAuthor' element={<ListAuthors />} />
+        <Route exact path='/newAuthor' element={<NewAuthor />} />
+
+
+
         <Route exact path='/register' element={<RegisterUser />} />
         <Route path="/login" element={<LoginUser />} />
 
@@ -79,7 +100,7 @@ const App = () => {
         <Route exact path='/admin/listbook' element={<ListBooks />} />
         <Route exact path='/orders/me' element={<ListOrders />} />
         {/* đang test */}
-        <Route exact path='/orders/list' element={<OrdersList />} />
+        <Route exact path='/auth' element={<OrdersList />} />
         <Route exact path='/order/auth/:id' element={<ProcessOrder />} />
         {/* <Route exact path='/order/auth/:id' element={<ProcessOrder />} /> */}
 
@@ -89,16 +110,9 @@ const App = () => {
         <Route exact path='/cart' element={<Cart />} />
         <Route exact path='/shipping' element={<Shipping />} />
         <Route exact path='/confirm' element={<ConfirmOrder />} />
-
+        {/* payment */}
         <Route path='/payment' element={stripeApiKey &&
         <Elements stripe={loadStripe(stripeApiKey)}> <Payment /></Elements>} exact />
-
-
-        {/* <Elements stripe={stripePromise}>
-          <Route exact path='/payment' element={<Payment />} />
-        </Elements> */}
-
-
 
         <Route exact path='/success' element={<OrderSuccess />} />
 

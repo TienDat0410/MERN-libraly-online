@@ -33,6 +33,11 @@ const Sidebar = () => {
 									<i className="fa fa-plus"></i> Create
 								</Link>
 							</li>
+							<li>
+								<Link to="/admin/listbook">
+									 Detail All book
+								</Link>
+							</li>
 						</ul>
 					</li>
 					<li>
@@ -46,13 +51,13 @@ const Sidebar = () => {
 						</a>
 						<ul className="collapse list-unstyled" id="categorySubmenu">
 							<li>
-								<Link to="/author">
+								<Link to="/listAuthor">
 									<i className="fa fa-clipboard"></i> All
 								</Link>
 							</li>
 
 							<li>
-								<Link to="/admin/category/new">
+								<Link to="/newAuthor">
 									<i className="fa fa-plus"></i> Create
 								</Link>
 							</li>
@@ -60,7 +65,7 @@ const Sidebar = () => {
 					</li>
 
 					<li>
-						<Link to="/orders/list">
+						<Link to="/auth">
 							<i className="fa fa-shopping-basket"></i> Call Card
 						</Link>
 					</li>
@@ -77,5 +82,4 @@ const Sidebar = () => {
 		</div>
 	);
 };
-
 export default Sidebar;

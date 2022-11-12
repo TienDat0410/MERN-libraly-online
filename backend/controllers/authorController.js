@@ -7,7 +7,9 @@ const authorController = {
         try {
             const newAuthor = new Author(req.body);
             const saveAuthor = await newAuthor.save();
-            res.status(200).json(saveAuthor);
+            res.status(200).json({
+                success: true,
+                saveAuthor});
         } catch (err) {
             res.status(500).json(err);
         }
@@ -45,7 +47,10 @@ const authorController = {
         try {
             await Book.updateMany({author: req.params.id}, {author: null});
             await Author.findByIdAndDelete(req.params.id);
-            res.status(200).json("Delete successfully!");
+            res.status(200).json({
+                success: true,
+                message: "Author is deleted.",
+            });
         } catch (err) {
             res.status(500).json(err);
         }

@@ -78,14 +78,14 @@ const Books = () => {
                                                                 style={{ color: 'white', cursor: 'pointer' }}>Delete</button>
                                                         </td>
                                                         <td>
-                                                            <Link to={`/bookdetail/${book && book._id}`}>
+                                                            <Link to={`/bookupdate/${book && book._id}`}>
                                                                 <button
                                                                     type='button'
                                                                     className='btn btn-success'
                                                                     style={{
                                                                         color: 'yellow',
                                                                         cursor: 'pointer',
-                                                                    }}>Details</button>
+                                                                    }}>Update</button>
                                                             </Link>
                                                         </td>
 

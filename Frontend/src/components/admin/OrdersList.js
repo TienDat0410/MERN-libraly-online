@@ -15,14 +15,16 @@ const OrdersList = () => {
 	const history = useNavigate();
 
 	//Get the book details and fill it in the form
-	const { loading, error, orders } = useSelector((state) => state.myOrders);
+	// const { loading, error, orders } = useSelector((state) => state.myOrders);
+	const { loading, error, orders } = useSelector((state) => state.allOrders);
+
 
 	const dispatch = useDispatch();
 	//
 
 	useEffect(() => {
-		dispatch(myOrders());
-		// dispatch(allOrders());
+		// dispatch(myOrders());
+		dispatch(allOrders());
 
 
 		if (error) {
@@ -33,7 +35,7 @@ const OrdersList = () => {
 
 	const deleteOrderHandler = (id) => {
 		dispatch(deleteOrder(id));
-		history('/orders/list');
+		history('/auth');
 	}
 
 
@@ -44,11 +46,6 @@ const OrdersList = () => {
 				{
 					label: "Order ID",
 					field: "id",
-					sort: "asc",
-				},
-				{
-					label: "Num of Items",
-					field: "numOfItems",
 					sort: "asc",
 				},
 				{
@@ -92,12 +89,13 @@ const OrdersList = () => {
 		orders.forEach(order => {
 			data.rows.push({
 				id: order._id,
-				numofItems: order.callCardItems.length,
-				amount: `$${order.totalPrice}`,
+				// numofItems: order && order.callCardItems.length,
+				amount: `${order.totalPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`,
 				status: order.orderStatus && String(order.orderStatus).includes('Delivered')
 					? <p style={{ color: 'green' }}>{order.orderStatus}</p>
 					: <p style={{ color: 'red' }}>{order.orderStatus}</p>,
-				actions: <Fragment>
+				actions: 
+				<Fragment>
 					<Link to={`/order/auth/${order._id}`} className="btn btn-primary py-1 px-2">
 						<i className="fa fa-eye"></i>
 					</Link>

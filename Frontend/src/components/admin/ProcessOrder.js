@@ -46,7 +46,7 @@ const ProcessOrder = () => {
 		formData.set('status', status);
 
 		dispatch(updateOrder(id, formData));
-		history('/orders/list');
+		history('/auth');
 	}
 
 	const loanDetails = loanInfo && `${loanInfo.address}, ${loanInfo.city}, ${loanInfo.postalCode}, ${loanInfo.country}`

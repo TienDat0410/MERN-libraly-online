@@ -3,13 +3,15 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createBookReducer } from '../reducers/books/createBookReducer';
 import booksListReducer from '../reducers/books/bookListReducer';
-import userAuthReducer from '../reducers/users/userAuthReducer';
+import {userAuthReducer, allUsersReducer, userUpdateAndDelete, userDetailsReducer} from '../reducers/users/userAuthReducer';
 import { userProfileReducer } from '../reducers/users/userProfileReducer';
 import userUpdateReducer from '../reducers/users/updateUserProfile';
 import bookDetailReducer from '../reducers/books/bookDetailsReducer';
-import authorListReducer from '../reducers/author/authorListReducer';
+
+import {authorListReducer, addAuthorReducer, dltAuthorReducer} from '../reducers/author/authorListReducer'
 import { callCardReducer, callCartReducer } from '../reducers/callcard/callCardReducer';
 import { allOrdersReducer, myOrdersReducer, newOrderReducer, orderDetailsReducer, orderReducer } from '../reducers/order/orderReducer';
+import bookUpdateReducer from '../reducers/books/bookUpdateReducer';
 
 
 // const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -20,12 +22,19 @@ const reducer = combineReducers({
     bookcreated: createBookReducer,
     booksList: booksListReducer,
     bookDetails: bookDetailReducer,
+    bookUpdateAndDelete: bookUpdateReducer,
     //user
     userLogin: userAuthReducer, //login and register
     userProfile: userProfileReducer, //profile
     updatedUser: userUpdateReducer, //update
+    allUsers: allUsersReducer,
+    userUpdateAndDlt: userUpdateAndDelete,
+    userDetails: userDetailsReducer,
     //author
     authorsList: authorListReducer,
+    authorcreated: addAuthorReducer,
+    dltAuthor: dltAuthorReducer,
+
     //upload file
     // uploadFiles: uploadFileReducer,
     cart: callCardReducer,

@@ -23,14 +23,10 @@ const BookDetail = () => {
 
     useEffect(() => {
         dispatch(fetchBook(id));
-        dispatch(fetchBooks());
+        // dispatch(fetchBooks());
         if (loading) {
             window.location.reload(false);
         }
-        // if (error) {
-        //     alert(error);
-        //     dispatch(clearErrors());
-        // }
     }, [dispatch, id]);
     //add to call card
     const addToCallCart = () => {

@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import Books from '../Books/FetchBook';
 import { fetchBooks } from '../../redux/actions/books/bookActions';
-import { useNavigate } from "react-router-dom";
-import Loading from '../Loading/loading';
+import { useNavigate, Route } from "react-router-dom";
 import BookHome from '../Books/book';
+import Search from '../layout/Search';
 
 const Home = () => {
 
@@ -42,8 +42,10 @@ const Home = () => {
                 </div>
 
 
+
             </Fragment>
             <Fragment>
+            <Route render={({ history }) => <Search history={history} />} />
                 <section id="products" className="container mt-5">
                     <div className="row">
                         <div className="col-6 col-md-9">

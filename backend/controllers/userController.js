@@ -63,8 +63,11 @@ const userController = {
     //get all user
     getAllUsers: async (req, res) => {
         try {
-            const allUsers = await User.find();
-            res.status(200).json(allUsers);
+            const users = await User.find();
+            res.status(200).json({
+                success: true,
+                users
+            });
         } catch (err) {
             res.status(500).json(err);
         }
@@ -73,7 +76,10 @@ const userController = {
     getAUser: async (req, res) => {
         try {
             const user = await User.findById(req.params.id);
-            res.status(200).json(user);
+            res.status(200).json({
+                success: true,
+                user
+            });
 
         } catch (err) {
             res.status(500).json(err);
@@ -133,6 +139,23 @@ const userController = {
                 err: "User Not found",
             });
         }
+    },
+    updateUserAdmin: async (req, res, next) => {
+        const newUserData = {
+            username: req.body.username,
+            email: req.body.email,
+            permission: req.body.permission
+        }
+
+        const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false
+        })
+
+        res.status(200).json({
+            success: true
+        })
     },
     deleteUser: async (req, res) => {
         try {

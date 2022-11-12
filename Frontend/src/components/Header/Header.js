@@ -20,7 +20,7 @@ const Header = () => {
         dispatch(logoutUserAction());
         alert("Logged out successfully.");
         window.location.reload(false);
-        history({ url }); //useNagate is not reload page ????
+        history('/'); //useNagate is not reload page ????
         //reload page use javascript
 
     };

@@ -62,6 +62,10 @@ const oderController = {
             const userId = req.user._id;
             const orders = await Order.find(userId);
 
+            // orders.forEach((order) => {
+            //     totalAmount += order.totalPrice;
+            // });
+
             res.status(200).json({
                 success: true,
                 orders,
@@ -108,7 +112,7 @@ const oderController = {
             success: true,
         });
     },
-    // Delete order   =>   /api/v1/admin/order/:id
+    // Delete order   =>   /order/delete/:id
     deleteOrder: async (req, res, next) => {
         const order = await Order.findById(req.params.id);
 

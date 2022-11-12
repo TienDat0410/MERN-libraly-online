@@ -21,6 +21,8 @@ router.get("/auth/:id", authMiddlware, userController.getAUser)
 router.put("/auth/update", authMiddlware, userController.updateUser);
 //delete
 router.delete("/auth/:id", authMiddlware, userController.deleteUser);
+//update user admin
+router.put("/update/admin/:id", authMiddlware, userController.updateUserAdmin);
 
 router.post("/email", checkemail);
 

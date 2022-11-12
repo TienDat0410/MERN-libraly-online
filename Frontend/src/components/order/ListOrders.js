@@ -14,6 +14,8 @@ const ListOrders = () => {
 
     //Get the book details and fill it in the form
     const { loading, error, orders } = useSelector((state) => state.myOrders);
+    // const { loading, error, orders } = useSelector((state) => state.allOrders);
+
 
     const dispatch = useDispatch();
     //
@@ -67,7 +69,8 @@ const ListOrders = () => {
             data.rows.push({
                 id: order._id,
                 numOfItems: order.callCardItems.length,
-                amount: `$${order.totalPrice}`,
+                amount: `${order.totalPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}`,
+                
                 status:
                     order.orderStatus &&
                         String(order.orderStatus).includes("Delivered") ? (
