@@ -23,6 +23,10 @@ router.put("/auth/update", authMiddlware, userController.updateUser);
 router.delete("/auth/:id", authMiddlware, userController.deleteUser);
 //update user admin
 router.put("/update/admin/:id", authMiddlware, userController.updateUserAdmin);
+//update pass
+router.put("/password/update", authMiddlware, userController.updatePassword);
+//
+router.post("/password/forgot", authMiddlware, userController.forgotPassword);
 
 router.post("/email", checkemail);
 

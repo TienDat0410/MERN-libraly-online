@@ -14,4 +14,6 @@ router.put("/auth/:id",  authMiddlware,authorController.updateAuthor);
 //delete
 router.delete("/auth/:id", authMiddlware, authorController.deleteAuthor);
 
+
+
 module.exports = router;

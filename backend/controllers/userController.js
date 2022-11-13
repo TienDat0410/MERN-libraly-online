@@ -5,6 +5,7 @@ const checkemail = require('../utils/checkEmail');
 const bcrypt = require('bcrypt');
 // const cloudinary = require('../utils/cloudinary');
 const cloudinary = require('cloudinary').v2;
+// const sendToken = require('../utils/generateToken');
 //
 
 
@@ -46,6 +47,7 @@ const userController = {
                     url: result.secure_url
                 }
             });
+            // sendToken(saveUser, 200, res);
             res.status(201).json({
                 success: true,
                 _id: saveUser.id,
@@ -203,6 +205,82 @@ const userController = {
             res.status(500).json(err);
         }
     },
+    // Forgot Password   =>  //password/forgot
+    forgotPassword: async (req, res, next) => {
+
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return next(new Error('User not found with this email', 404));
+        }
+
+        // Get reset token
+        // const resetToken = user.getResetPasswordToken();
+
+        await user.save({ validateBeforeSave: false });
+
+        // Create reset password url
+        // const resetUrl = `${req.protocol}://${req.get('host')}/password/reset/${resetToken}`;
+
+        // const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.`
+
+        try {
+
+            await checkemail({
+                email: user.email,
+                subject: 'Libraly-online-hutech Password Recovery',
+                message,
+            })
+
+            res.status(200).json({
+                success: true,
+                message: `Email sent to: ${user.email}`
+            })
+
+        } catch (error) {
+            // user.resetPasswordToken = undefined;
+            // user.resetPasswordExpire = undefined;
+
+            await user.save({ validateBeforeSave: false });
+
+            return next(new Error(error.message, 500))
+        }
+
+    },
+    // Update / Change password   =>  //password/update
+    updatePassword: async (req, res, next) => {
+        //Grab the user from the req.user
+        const userId = req.user._id;
+        const newPass = {
+            password : req.body.newPassword,
+        }
+        try {
+            // const user = await User.findById(userId).select('+password');
+
+            // Check previous user password
+            // const isMatched = await user.comparePassword(req.body.oldPassword)
+            // if (!isMatched) {
+            //     return next(new Error('Old password is incorrect'));
+            // }
+            
+
+            
+            const user = User.save(userId, newPass, {
+                new: true,
+            });
+
+            res.status(200);
+            res.json({
+                status: true,
+                user
+            });
+        } catch (error) {
+            res.status(500).json(error);
+        }
+
+
+    },
+
 }
 
 module.exports = userController;

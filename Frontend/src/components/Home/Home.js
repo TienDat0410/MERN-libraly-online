@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './Home.css';
 import bookpg from '../../assets/img/book.jpg';
 // import videoSource from '../../assets/books.mp4';
@@ -9,7 +9,7 @@ import Books from '../Books/FetchBook';
 import { fetchBooks } from '../../redux/actions/books/bookActions';
 import { useNavigate, Route } from "react-router-dom";
 import BookHome from '../Books/book';
-import Search from '../layout/Search';
+import $ from "jquery";
 
 const Home = () => {
 
@@ -20,6 +20,18 @@ const Home = () => {
     useEffect(() => {
         dispatch(fetchBooks());
     }, [dispatch]);
+    const searchHandler = async (e) => {
+        e.preventDefault();
+    
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myDIV *").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    }
 
     return (
         <Fragment>
@@ -41,23 +53,23 @@ const Home = () => {
                     </div>
                 </div>
 
-
-
             </Fragment>
             <Fragment>
-            <Route render={({ history }) => <Search history={history} />} />
                 <section id="products" className="container mt-5">
+                    <input className="form-control" id="myInput" type="text" placeholder="Search..." onChange={searchHandler} />
                     <div className="row">
                         <div className="col-6 col-md-9">
-                            <div className="row" >
+                            <div id="myDIV" className="row" >
                                 <BookHome />
                             </div>
                         </div>
                     </div>
                 </section>
+
             </Fragment>
 
         </Fragment>
+
     );
 };
 

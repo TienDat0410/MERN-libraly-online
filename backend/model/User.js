@@ -39,6 +39,13 @@ usertSchema.pre('save', async function (next) {
     next();
 });
 
+//token
+// usertSchema.methods.getJwtToken = function() {
+//         return jwt.sign({id: this._id}, process.env.JWT_SECRET_KEY, {
+//             expiresIn: '30d'
+//         });
+// };
+
 // usertSchema.pre('findOneAndUpdate', async function (next) {
 //     try {
 //         const salt = await bcrypt.genSalt(10);
