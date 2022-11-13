@@ -22,7 +22,7 @@ const { v4: uuidv4 } = require('uuid');
 const cloudinary = require('cloudinary').v2;
 const fileUpload = require('express-fileupload');
 
-const port = process.env.PORT || 3000;
+const port = 5000;
 
 dotenv.config();
 //connect database
